@@ -1,0 +1,10 @@
+<!doctype html><html><body style="margin:20px;font-family:sans-serif;background:#222;color:#fff">
+<h2>Image audit</h2>
+<script>
+const names = ["hero-interior","hero-beige","featured-armchair","featured-lounge","collection-modern","collection-comfort","collection-classics","interior-1","interior-2","interior-3","interior-4","interior-5","interior-6","interior-7","interior-8","interior-minimal","workshop","workshop-2","lamp-room","lamp-corner","portrait-1","portrait-2","portrait-3","portrait-4","prod-green-sofa","prod-brown-couch","prod-pillow-couch","prod-beige-armchair","prod-white-chair","prod-wooden-chair","prod-antique-chair","prod-couch-anthurium","prod-console","prod-contemporary-chair","prod-wooden-table","prod-rustic-table","prod-warm-wood","prod-pink-chairs","prod-couch-drapes","interial-deer"];
+document.write('<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">');
+for (const n of names) {
+  document.write(`<figure style="margin:0"><img src="/images/${n}.jpg" style="width:100%;height:170px;object-fit:cover" loading="eager"><figcaption style="font-size:12px;padding:4px 0">${n}</figcaption></figure>`);
+}
+document.write('</div>');
+</script></body></html>
