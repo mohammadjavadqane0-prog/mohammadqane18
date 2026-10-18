@@ -1,10 +1,6 @@
 // Persian formatting helpers: numerals, Toman currency, Jalali dates and
 // Persian-aware text normalization for search.
 
-import { toman } from "./pricing";
-
-export { toman, TOMAN_RATE } from "./pricing";
-
 /** Latin digits → Persian digits (۱۲۳). */
 export function faDigits(input: string | number): string {
   return String(input).replace(/[0-9]/g, (d) =>
@@ -17,9 +13,9 @@ export function faNum(n: number): string {
   return faDigits(n);
 }
 
-/** Full Toman price, e.g. «۲۵٬۹۰۰٬۰۰۰ تومان». */
+/** Full Toman price, e.g. «۲۵٬۹۰۰٬۰۰۰ تومان». Input is a numeric Toman amount. */
 export function formatPrice(n: number): string {
-  return `${new Intl.NumberFormat("fa-IR").format(toman(n))} تومان`;
+  return `${new Intl.NumberFormat("fa-IR").format(Math.round(n))} تومان`;
 }
 
 /** Bare Persian number with separators, no currency word. */

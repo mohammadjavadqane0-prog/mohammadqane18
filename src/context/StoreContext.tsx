@@ -171,6 +171,7 @@ export function useStore() {
   return ctx;
 }
 
-// Toman price formatting lives in src/lib/fa (with the configurable
-// display rate in src/lib/pricing) — re-exported here for existing imports.
+// Toman price formatting lives in src/lib/fa; delivery constants in
+// src/lib/pricing — re-exported here for existing imports.
 export { formatPrice } from "../lib/fa";
+export { DELIVERY_FEE, FREE_DELIVERY_THRESHOLD } from "../lib/pricing";

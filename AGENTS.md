@@ -15,14 +15,17 @@
   env var is passed through; Vite appends it to the dev server allowedHosts.
 - **Secrets:** none required — the app has no external integrations.
 - **Localization (fa-IR):** the site is fully Persian/RTL — `index.html` is
-  `lang="fa" dir="rtl"`. Typography is Yekan Bakh (یکان‌بخ): upload the
-  licensed WOFF2 files to `public/fonts/` with the exact names listed in
+  `lang="fa" dir="rtl"`. Typography is Yekan Bakh (یکان‌بخ): the licensed
+  WOFF2 files must sit in `public/fonts/` with the exact names listed in
   `public/fonts/README.md`; until then Tahoma renders as a fallback and the
-  font requests 404 harmlessly. Toman prices go through `src/lib/fa.ts`
-  (`formatPrice`) with the USD→Toman rate in `src/lib/pricing.ts`
-  (`TOMAN_RATE`, placeholder 1 — set the real rate there). Jalali dates and
-  Persian digits come from `Intl` fa-IR via `faDate`/`faNum`. Search
-  normalization (ی/ي، ک/ك، digits, ZWNJ) lives in `normalizeFa`.
+  font requests 404 harmlessly. Prices are stored as numeric Toman amounts
+  directly in `src/data/products.ts` (fictional demo values, one editable
+  source of truth per product); `src/lib/fa.ts#formatPrice` formats them
+  with `Intl.NumberFormat("fa-IR")` + «تومان». Delivery fee / free-delivery
+  threshold live in `src/lib/pricing.ts` (`DELIVERY_FEE`,
+  `FREE_DELIVERY_THRESHOLD`). Jalali dates and Persian digits come from
+  `Intl` fa-IR via `faDate`/`faNum`. Search normalization (ی/ي، ک/ك،
+  digits, ZWNJ) lives in `normalizeFa`.
 - **Honesty notes (by design):** checkout, account sign-in, newsletter and the
   contact form are demo flows — they validate locally and say so in the UI;
   no real payment/auth/email provider is wired.

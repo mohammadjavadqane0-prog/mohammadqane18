@@ -4,7 +4,11 @@ import { ProductCard } from "../components/ProductCard";
 import { ProductGallery } from "../components/ProductGallery";
 import { Reveal } from "../components/Reveal";
 import { IconMinus, IconPlus, IconArrowRight } from "../components/icons";
-import { formatPrice, useStore } from "../context/StoreContext";
+import {
+  FREE_DELIVERY_THRESHOLD,
+  formatPrice,
+  useStore,
+} from "../context/StoreContext";
 import {
   getProduct,
   relatedProducts,
@@ -208,8 +212,10 @@ export default function ProductDetail() {
                 {tab === "delivery" ? (
                   <ul className="list-disc space-y-2 ps-4">
                     <li>
-                      برای سفارش‌های بالای {formatPrice(1000)}، تحویل تشریفاتی رایگان
-                      است — جابه‌جایی، نصب و جمع‌آوری کامل بسته‌بندی با ما.
+                      برای سفارش‌های بالای{" "}
+                      {formatPrice(FREE_DELIVERY_THRESHOLD)}، تحویل تشریفاتی
+                      رایگان است — جابه‌جایی، نصب و جمع‌آوری کامل بسته‌بندی با
+                      ما.
                     </li>
                     <li>ارسال استاندارد در ۲ تا ۴ هفته؛ قطعه‌های سفارشی در ۶ تا ۸ هفته.</li>
                     <li>۳۰ روز مهلت بازگشت کالا، با تحویل از درب منزل.</li>

@@ -57,8 +57,8 @@ export const products: Product[] = [
     slug: "drop-chair",
     name: "صندلی دراپ",
     category: "armchairs",
-    price: 1180,
-    originalPrice: 1390,
+    price: 24500000,
+    originalPrice: 29000000,
     description:
       "صندلی دراپ، تلفیقی از طراحی مدرن، ظرافت و راحتی است. فرم منحصربه‌فرد، روکش چرمی باکیفیت و رنگ زرد گرم آن، جلوه‌ای چشم‌نواز به فضای زندگی شما می‌بخشد.",
     story:
@@ -85,7 +85,7 @@ export const products: Product[] = [
     slug: "ligne-sofa",
     name: "مبل لین",
     category: "couches",
-    price: 3480,
+    price: 98500000,
     description:
       "مبل سه‌نفره‌ای جادار با روکش مخمل جنگلی عمیق. فرمِ پایین و ساختاری نرم، با اقتداری آرام قالبِ اتاق می‌شود.",
     story:
@@ -111,7 +111,7 @@ export const products: Product[] = [
     slug: "milano-sofa",
     name: "مبل میلانو",
     category: "couches",
-    price: 4200,
+    price: 154000000,
     description:
       "مبل چرم عاجیِ سینمایی با پایه‌های فولادی به پرداخت برنجی؛ ساخته‌شده برای فضاهای تیره و دراماتیک و نور گرم چراغ.",
     story:
@@ -137,7 +137,7 @@ export const products: Product[] = [
     slug: "atelier-sofa",
     name: "مبل آتلیه",
     category: "couches",
-    price: 2890,
+    price: 112000000,
     description:
       "کوسن‌های عمیق، دسته‌های مجسمه‌وار و بافت بوله‌ای به نرمی نجوا — آتلیه، راحتی‌ای است دوخته‌شده مثل پوشاک اوت‌کوتور.",
     story:
@@ -161,7 +161,7 @@ export const products: Product[] = [
     slug: "belleville-couch",
     name: "مبل بلویل",
     category: "couches",
-    price: 2240,
+    price: 74500000,
     description:
       "دونفره‌ای جمع‌وجور با پایه سکویی و خطوطی بی‌تکلف — آغازگری شیک برای آپارتمان‌های کوچک‌تر.",
     story:
@@ -186,7 +186,7 @@ export const products: Product[] = [
     slug: "vallnord-armchair",
     name: "صندلی راحتی والنورد",
     category: "armchairs",
-    price: 1460,
+    price: 32800000,
     description:
       "صندلی راحتی گرد و دربرگیرنده در بافت بژ نرم با پایه‌های بلوط یکپارچه — همراهِ مطالعهٔ این خانه.",
     story:
@@ -211,7 +211,7 @@ export const products: Product[] = [
     slug: "verde-salon-chair",
     name: "صندلی سالن ورده",
     category: "armchairs",
-    price: 1290,
+    price: 27600000,
     description:
       "مخمل جنگلیِ گرم و دسته‌های خمیده راش، به ورده حال‌وهوای یک کلوب خصوصی می‌بخشد؛ در هر سالنی خانه می‌کند.",
     story:
@@ -236,7 +236,7 @@ export const products: Product[] = [
     slug: "kotka-chair",
     name: "صندلی کوتکا",
     category: "chairs",
-    price: 420,
+    price: 14900000,
     description:
       "صندلی چوبی خالص برای غذاخوری یا میز کار، در توس گرم؛ پشتی خمیده‌اش برای ساعت‌ها کار آرام فرم گرفته است.",
     story:
@@ -262,7 +262,7 @@ export const products: Product[] = [
     slug: "atelier-dining-chair",
     name: "صندلی غذاخوری آتلیه",
     category: "chairs",
-    price: 380,
+    price: 11800000,
     description:
       "صندلی مینیمالِ مجسمه‌وار در پارچه سفید نرم روی تخته‌لای قالب‌ریخته — سبک در دست، سبک در فضا.",
     story:
@@ -286,7 +286,7 @@ export const products: Product[] = [
     slug: "heritage-chair",
     name: "صندلی هرمیتیج",
     category: "chairs",
-    price: 520,
+    price: 15900000,
     description:
       "صندلی میله‌ای الهام‌گرفته از سبک عتیقه، با خطوط بازیابی‌شده — تکه‌ای کوچک از تاریخ برای میز صبحانه.",
     story:
@@ -310,7 +310,7 @@ export const products: Product[] = [
     slug: "ondulation-table",
     name: "میز اوندولاسیون",
     category: "tables",
-    price: 1890,
+    price: 68000000,
     description:
       "میز غذاخوری چوب یکپارچه که لبه‌هایش موج‌هایی چون آب دارند — جای نشستن شش نفر، با فضایی برای نفس کشیدن.",
     story:
@@ -335,7 +335,7 @@ export const products: Product[] = [
     slug: "farmhouse-table",
     name: "میز روستایی",
     category: "tables",
-    price: 2150,
+    price: 54500000,
     description:
       "گرم و چوبی، در کاج یکپارچه که رندهٔ دستی، ردِ ساخته‌شدن را روی آن نگه داشته است.",
     story:
@@ -359,7 +359,7 @@ export const products: Product[] = [
     slug: "solstice-floor-lamp",
     name: "چراغ ایستاده سولستیس",
     category: "lighting",
-    price: 640,
+    price: 16500000,
     description:
       "چراغ قوسی کشیده در برنجی کهنه که نوری گرم و سینمایی روی مبل و صندلی مطالعه می‌ریزد.",
     story:
@@ -384,7 +384,7 @@ export const products: Product[] = [
     slug: "trio-salon-lamps",
     name: "چراغ‌های رومیزی تریو",
     category: "lighting",
-    price: 880,
+    price: 24800000,
     description:
       "خانواده‌ای از سه چراغ رومیزی مجسمه‌وار — روی کنسول بچینید و اتاق خودش را مرتب می‌کند.",
     story:
@@ -408,7 +408,7 @@ export const products: Product[] = [
     slug: "bois-console",
     name: "کنسول بوآ",
     category: "storage",
-    price: 1320,
+    price: 38500000,
     description:
       "کنسول باریک بلوط با کشویی شناور — مناسب پشت مبل یا راهرو ورودی.",
     story:
@@ -432,7 +432,7 @@ export const products: Product[] = [
     slug: "cucina-sideboard",
     name: "سایدبورد کوچینا",
     category: "storage",
-    price: 1680,
+    price: 62000000,
     description:
       "خودداری اسکاندیناوی در چوب روشن — درهای آرام‌بسته، کشوهای داخلی و پرداخت عسلی.",
     story:

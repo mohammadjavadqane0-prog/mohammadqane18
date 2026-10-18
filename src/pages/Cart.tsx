@@ -1,6 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { formatPrice, useStore } from "../context/StoreContext";
+import {
+  DELIVERY_FEE,
+  FREE_DELIVERY_THRESHOLD,
+  formatPrice,
+  useStore,
+} from "../context/StoreContext";
 import { PageHeader } from "../components/PageHeader";
 import { categoryMeta } from "../data/products";
 import { faNum } from "../lib/fa";
@@ -106,12 +111,19 @@ export default function CartPage() {
                 </div>
                 <div className="flex justify-between">
                   <dt>ارسال تشریفاتی</dt>
-                  <dd>{cartTotal >= 1000 ? "رایگان" : formatPrice(120)}</dd>
+                  <dd>
+                    {cartTotal >= FREE_DELIVERY_THRESHOLD
+                      ? "رایگان"
+                      : formatPrice(DELIVERY_FEE)}
+                  </dd>
                 </div>
                 <div className="flex justify-between border-t border-charcoal/10 pt-3 text-base">
                   <dt className="font-heading font-bold text-ink">مبلغ کل</dt>
                   <dd className="font-heading font-bold text-ink">
-                    {formatPrice(cartTotal + (cartTotal >= 1000 ? 0 : 120))}
+                    {formatPrice(
+                      cartTotal +
+                        (cartTotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE)
+                    )}
                   </dd>
                 </div>
               </dl>

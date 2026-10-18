@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { formatPrice, useStore } from "../context/StoreContext";
+import {
+  DELIVERY_FEE,
+  FREE_DELIVERY_THRESHOLD,
+  formatPrice,
+  useStore,
+} from "../context/StoreContext";
 import { PageHeader } from "../components/PageHeader";
 import { faNum, normalizeFa } from "../lib/fa";
 
@@ -72,7 +77,8 @@ export default function CheckoutPage() {
     );
   }
 
-  const delivery = cartTotal >= 1000 ? 0 : 120;
+  const delivery =
+    cartTotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();

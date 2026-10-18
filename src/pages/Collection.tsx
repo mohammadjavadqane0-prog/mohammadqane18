@@ -17,10 +17,10 @@ const colorNames = Array.from(
 );
 
 const priceBands = [
-  { label: "زیر ۵۰۰ تومان", min: 0, max: 500 },
-  { label: "۵۰۰ تا ۱٬۵۰۰ تومان", min: 500, max: 1500 },
-  { label: "۱٬۵۰۰ تا ۳٬۰۰۰ تومان", min: 1500, max: 3000 },
-  { label: "بیش از ۳٬۰۰۰ تومان", min: 3000, max: Infinity },
+  { label: "زیر ۲۰ میلیون تومان", min: 0, max: 20_000_000 },
+  { label: "۲۰ تا ۵۰ میلیون تومان", min: 20_000_000, max: 50_000_000 },
+  { label: "۵۰ تا ۱۰۰ میلیون تومان", min: 50_000_000, max: 100_000_000 },
+  { label: "بیش از ۱۰۰ میلیون تومان", min: 100_000_000, max: Infinity },
 ];
 
 const sorts = [
