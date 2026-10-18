@@ -16,16 +16,22 @@ export default {
         cream: "#F4EFE4",
       },
       fontFamily: {
-        heading: ["Manrope", "ui-sans-serif", "system-ui", "sans-serif"],
-        body: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-        accent: ["'Cormorant Garamond'", "Georgia", "serif"],
+        // Yekan Bakh (یکان‌بخ) — genuine font files load from /public/fonts
+        // (see public/fonts/README.md); Tahoma is the temporary fallback
+        // until the licensed files are uploaded.
+        heading: ['"Yekan Bakh"', "Tahoma", "ui-sans-serif", "system-ui", "sans-serif"],
+        body: ['"Yekan Bakh"', "Tahoma", "ui-sans-serif", "system-ui", "sans-serif"],
+        accent: ['"Yekan Bakh"', "Tahoma", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       maxWidth: {
         luxe: "1360px",
       },
+      // Persian (Arabic-script) text must not be letter-spaced — tracking
+      // breaks the joined cursive letterforms. The Latin wordmark sets its
+      // own explicit tracking.
       letterSpacing: {
-        luxe: "0.28em",
-        wide2: "0.12em",
+        luxe: "0",
+        wide2: "0",
       },
       keyframes: {
         fadeUp: {

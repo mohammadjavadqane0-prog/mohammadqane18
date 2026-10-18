@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { faNum } from "../lib/fa";
 
 export function ProductGallery({ images, name }: { images: string[]; name: string }) {
   const [active, setActive] = useState(0);
@@ -10,7 +11,7 @@ export function ProductGallery({ images, name }: { images: string[]; name: strin
           <img
             key={src + i}
             src={src}
-            alt={`${name} — view ${i + 1}`}
+            alt={`${name} — نمای ${faNum(i + 1)}`}
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
               i === active ? "opacity-100" : "opacity-0"
             }`}
@@ -23,7 +24,7 @@ export function ProductGallery({ images, name }: { images: string[]; name: strin
           <button
             key={src + i}
             onClick={() => setActive(i)}
-            aria-label={`Show view ${i + 1} of ${name}`}
+            aria-label={`نمایش نمای ${faNum(i + 1)} از ${name}`}
             aria-pressed={i === active}
             className={`aspect-square overflow-hidden border transition-all duration-300 ${
               i === active

@@ -2,29 +2,40 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { formatPrice, useStore } from "../context/StoreContext";
 import { PageHeader } from "../components/PageHeader";
+import { faNum, normalizeFa } from "../lib/fa";
 
 interface ShippingForm {
-  firstName: string;
-  lastName: string;
+  fullName: string;
+  phone: string;
   email: string;
-  address: string;
+  province: string;
   city: string;
   postal: string;
-  country: string;
+  address: string;
   cardName: string;
   cardNumber: string;
   cardExpiry: string;
   cardCvc: string;
 }
 
+// Iranian provinces
+const provinces = [
+  "تهران", "البرز", "اصفهان", "آذربایجان شرقی", "آذربایجان غربی",
+  "اردبیل", "بوشهر", "چهارمحال و بختیاری", "خراسان جنوبی", "خراسان رضوی",
+  "خراسان شمالی", "خوزستان", "زنجان", "سمنان", "سیستان و بلوچستان",
+  "فارس", "قزوین", "قم", "کردستان", "کرمان",
+  "کرمانشاه", "کهگیلویه و بویراحمد", "گلستان", "گیلان", "لرستان",
+  "مازندران", "مرکزی", "هرمزگان", "همدان", "یزد",
+];
+
 const initial: ShippingForm = {
-  firstName: "",
-  lastName: "",
+  fullName: "",
+  phone: "",
   email: "",
-  address: "",
+  province: "تهران",
   city: "",
   postal: "",
-  country: "Belgium",
+  address: "",
   cardName: "",
   cardNumber: "",
   cardExpiry: "",
@@ -48,13 +59,13 @@ export default function CheckoutPage() {
   if (cartDetailed.length === 0) {
     return (
       <main>
-        <PageHeader eyebrow="Checkout" title="Nothing to Check Out" />
+        <PageHeader eyebrow="ثبت سفارش" title="چیزی برای ثبت نیست" />
         <div className="container-luxe flex flex-col items-center gap-4 py-20 text-center">
-          <p className="font-accent text-2xl italic text-charcoal/60">
-            Your cart is empty — add a piece first.
+          <p className="font-accent text-2xl text-charcoal/60">
+            سبد خرید شما خالی است — ابتدا قطعه‌ای انتخاب کنید.
           </p>
           <Link to="/collection" className="btn-gold">
-            Explore Collection
+            مشاهده مجموعه‌ها
           </Link>
         </div>
       </main>
@@ -66,19 +77,23 @@ export default function CheckoutPage() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const errs: Partial<Record<keyof ShippingForm, string>> = {};
-    if (form.firstName.trim().length < 2) errs.firstName = "Required";
-    if (form.lastName.trim().length < 2) errs.lastName = "Required";
+    if (form.fullName.trim().length < 3) errs.fullName = "تکمیل این فیلد الزامی است.";
+    // Iranian mobile number: 09xxxxxxxxx (Persian digits are normalized first)
+    const phone = normalizeFa(form.phone).replace(/\s/g, "");
+    if (!/^09\d{9}$/.test(phone)) errs.phone = "شماره موبایل واردشده معتبر نیست.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
-      errs.email = "Valid email required";
-    if (form.address.trim().length < 5) errs.address = "Required";
-    if (form.city.trim().length < 2) errs.city = "Required";
-    if (form.postal.trim().length < 3) errs.postal = "Required";
-    if (form.cardName.trim().length < 3) errs.cardName = "Name on card required";
-    const digits = form.cardNumber.replace(/\s/g, "");
-    if (!/^\d{13,19}$/.test(digits)) errs.cardNumber = "Enter a valid card number";
-    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(form.cardExpiry.trim()))
-      errs.cardExpiry = "MM/YY";
-    if (!/^\d{3,4}$/.test(form.cardCvc.trim())) errs.cardCvc = "3–4 digits";
+      errs.email = "لطفاً یک ایمیل معتبر وارد کنید.";
+    if (form.address.trim().length < 5) errs.address = "تکمیل این فیلد الزامی است.";
+    if (form.city.trim().length < 2) errs.city = "تکمیل این فیلد الزامی است.";
+    // Iranian postal code: exactly 10 digits
+    const postal = normalizeFa(form.postal);
+    if (!/^\d{10}$/.test(postal)) errs.postal = "کد پستی باید ۱۰ رقم باشد.";
+    if (form.cardName.trim().length < 3) errs.cardName = "تکمیل این فیلد الزامی است.";
+    const digits = normalizeFa(form.cardNumber).replace(/\s/g, "");
+    if (!/^\d{16}$/.test(digits)) errs.cardNumber = "شماره کارت باید ۱۶ رقم باشد.";
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(normalizeFa(form.cardExpiry.trim())))
+      errs.cardExpiry = "قالب صحیح: ماه/سال";
+    if (!/^\d{3,4}$/.test(normalizeFa(form.cardCvc.trim()))) errs.cardCvc = "۳ یا ۴ رقم";
     setErrors(errs);
     if (Object.keys(errs).length === 0) {
       // Demo checkout: order state only, no real payment is processed.
@@ -123,69 +138,77 @@ export default function CheckoutPage() {
 
   return (
     <main>
-      <PageHeader eyebrow="Checkout" title="Complete Your Order" />
+      <PageHeader eyebrow="ثبت سفارش" title="تکمیل سفارش" />
       <div className="container-luxe py-16 md:py-20">
         <div className="mb-8 border border-gold/30 bg-gold/10 px-5 py-3 font-body text-xs text-charcoal/75">
-          <strong className="font-heading font-semibold">Demo checkout.</strong>{" "}
-          No real payment is processed — use any test values to complete the
-          experience.
+          <strong className="font-heading font-semibold">ثبت سفارش نمایشی.</strong>{" "}
+          هیچ پرداخت واقعی انجام نمی‌شود — برای تجربه‌ی کامل فرایند، از مقادیر
+          آزمایشی استفاده کنید.
         </div>
         <form onSubmit={submit} noValidate className="grid gap-10 lg:grid-cols-[1.4fr_1fr]">
           <div className="space-y-10">
-            <section aria-label="Shipping details" className="card-line p-7">
-              <h2 className="font-heading text-sm font-bold uppercase tracking-wide2">
-                1 · Shipping Details
+            <section aria-label="اطلاعات ارسال" className="card-line p-7">
+              <h2 className="font-heading text-sm font-bold">
+                ۱ · اطلاعات ارسال
               </h2>
               <div className="mt-6 grid gap-5 sm:grid-cols-2">
-                {field("firstName", "First name")}
-                {field("lastName", "Last name")}
-                {field("email", "Email", { type: "email" })}
-                {field("address", "Address")}
-                {field("city", "City")}
-                {field("postal", "Postal code")}
+                {field("fullName", "نام و نام خانوادگی")}
+                {field("phone", "شماره موبایل", {
+                  placeholder: "۰۹۱۲ ۳۴۵ ۶۷۸۹",
+                  inputMode: "tel",
+                  dir: "ltr",
+                })}
+                {field("email", "ایمیل", { type: "email", dir: "ltr" })}
                 <div>
-                  <label htmlFor="co-country" className="eyebrow mb-2 block">
-                    Country
+                  <label htmlFor="co-province" className="eyebrow mb-2 block">
+                    استان
                   </label>
                   <select
-                    id="co-country"
+                    id="co-province"
                     className="input-lux"
-                    value={form.country}
-                    onChange={(e) => set("country", e.target.value)}
+                    value={form.province}
+                    onChange={(e) => set("province", e.target.value)}
                   >
-                    {["Belgium", "Germany", "France", "Netherlands", "Denmark", "Italy"].map(
-                      (c) => (
-                        <option key={c}>{c}</option>
-                      )
-                    )}
+                    {provinces.map((p) => (
+                      <option key={p}>{p}</option>
+                    ))}
                   </select>
+                </div>
+                {field("city", "شهر")}
+                {field("postal", "کد پستی", { inputMode: "numeric" })}
+                <div className="sm:col-span-2">
+                  {field("address", "نشانی کامل")}
                 </div>
               </div>
             </section>
 
-            <section aria-label="Payment" className="card-line p-7">
-              <h2 className="font-heading text-sm font-bold uppercase tracking-wide2">
-                2 · Payment
+            <section aria-label="روش پرداخت" className="card-line p-7">
+              <h2 className="font-heading text-sm font-bold">
+                ۲ · روش پرداخت
               </h2>
+              <p className="mt-2 font-body text-xs text-charcoal/60">
+                پرداخت آنلاین (نمایشی) — درگاه واقعی متصل نیست.
+              </p>
               <div className="mt-6 grid gap-5 sm:grid-cols-2">
                 <div className="sm:col-span-2">
-                  {field("cardName", "Name on card")}
+                  {field("cardName", "نام روی کارت")}
                 </div>
                 <div className="sm:col-span-2">
-                  {field("cardNumber", "Card number", {
-                    placeholder: "4242 4242 4242 4242",
+                  {field("cardNumber", "شماره کارت", {
+                    placeholder: "6037 9912 3456 7890",
                     inputMode: "numeric",
+                    dir: "ltr",
                   })}
                 </div>
-                {field("cardExpiry", "Expiry (MM/YY)", { placeholder: "12/29" })}
-                {field("cardCvc", "CVC", { inputMode: "numeric" })}
+                {field("cardExpiry", "انقضا (ماه/سال)", { placeholder: "04/07" })}
+                {field("cardCvc", "CVV2", { inputMode: "numeric", dir: "ltr" })}
               </div>
             </section>
           </div>
 
-          <aside className="card-line h-fit p-7" aria-label="Order summary">
-            <h2 className="font-heading text-sm font-bold uppercase tracking-wide2">
-              Order Summary
+          <aside className="card-line h-fit p-7" aria-label="خلاصه سفارش">
+            <h2 className="font-heading text-sm font-bold">
+              خلاصه سفارش
             </h2>
             <ul className="mt-5 space-y-4">
               {cartDetailed.map(({ product, item }) => (
@@ -204,7 +227,7 @@ export default function CheckoutPage() {
                       {product.name}
                     </p>
                     <p className="font-body text-xs text-charcoal/55">
-                      ×{item.qty} · {item.color}
+                      ×{faNum(item.qty)} · {item.color}
                     </p>
                   </div>
                   <p className="whitespace-nowrap font-heading text-sm font-bold">
@@ -215,25 +238,25 @@ export default function CheckoutPage() {
             </ul>
             <dl className="mt-6 space-y-3 border-t border-charcoal/10 pt-5 font-body text-sm text-charcoal/70">
               <div className="flex justify-between">
-                <dt>Subtotal</dt>
+                <dt>جمع جزء</dt>
                 <dd>{formatPrice(cartTotal)}</dd>
               </div>
               <div className="flex justify-between">
-                <dt>White-glove delivery</dt>
-                <dd>{delivery === 0 ? "Included" : formatPrice(delivery)}</dd>
+                <dt>هزینه ارسال</dt>
+                <dd>{delivery === 0 ? "رایگان" : formatPrice(delivery)}</dd>
               </div>
               <div className="flex justify-between border-t border-charcoal/10 pt-3 text-base">
-                <dt className="font-heading font-bold text-ink">Total</dt>
+                <dt className="font-heading font-bold text-ink">مبلغ کل</dt>
                 <dd className="font-heading font-bold text-ink">
                   {formatPrice(cartTotal + delivery)}
                 </dd>
               </div>
             </dl>
             <button type="submit" className="btn-gold mt-7 w-full">
-              Place Order — {formatPrice(cartTotal + delivery)}
+              ثبت نهایی سفارش — {formatPrice(cartTotal + delivery)}
             </button>
             <p className="mt-4 text-center font-body text-xs text-charcoal/50">
-              By ordering you agree to our demo terms. No card is charged.
+              با ثبت سفارش، شرایط نمایشی ما را می‌پذیرید. هیچ مبلغی کسر نمی‌شود.
             </p>
           </aside>
         </form>
@@ -241,3 +264,4 @@ export default function CheckoutPage() {
     </main>
   );
 }
+

@@ -21,18 +21,18 @@ const iconMap: Record<CategorySlug, React.FC<{ className?: string }>> = {
 };
 
 /**
- * The reference "PRODUCTS" category strip: three featured categories on desktop
- * joined by thin gold lines; all six in a graceful grid on smaller screens.
+ * The category strip: three featured categories on desktop joined by thin
+ * gold lines; all six in a graceful grid on smaller screens.
  */
 export function CategoryStrip() {
   const featured = categories.slice(0, 3);
 
   return (
     <div>
-      {/* Desktop: reference composition */}
+      {/* Desktop composition */}
       <div className="hidden items-stretch justify-center md:flex">
         {featured.map((c, i) => {
-          const Icon = iconMap[c.slug];
+          const Icon = iconMap[c.slug as CategorySlug];
           return (
             <React.Fragment key={c.slug}>
               {i > 0 && (
@@ -51,10 +51,10 @@ export function CategoryStrip() {
                 <span className="text-charcoal transition-colors duration-300 group-hover:text-gold-muted">
                   <Icon className="h-16 w-16" />
                 </span>
-                <span className="mt-4 font-heading text-base font-bold tracking-wide text-ink group-hover:text-gold-muted">
+                <span className="mt-4 font-heading text-base font-bold text-ink group-hover:text-gold-muted">
                   {c.label}
                 </span>
-                <span className="mt-1.5 max-w-[180px] font-accent text-sm italic text-charcoal/60">
+                <span className="mt-1.5 max-w-[200px] font-accent text-sm text-charcoal/60">
                   {c.blurb}
                 </span>
               </Link>
@@ -66,7 +66,7 @@ export function CategoryStrip() {
       {/* Mobile / tablet: all six, 2-col grid */}
       <div className="grid grid-cols-2 gap-4 md:hidden">
         {categories.map((c) => {
-          const Icon = iconMap[c.slug];
+          const Icon = iconMap[c.slug as CategorySlug];
           return (
             <Link
               key={c.slug}
@@ -76,10 +76,10 @@ export function CategoryStrip() {
               <span className="text-charcoal transition-colors duration-300 group-hover:text-gold-muted">
                 <Icon className="h-12 w-12" />
               </span>
-              <span className="mt-3 font-heading text-sm font-bold tracking-wide text-ink">
+              <span className="mt-3 font-heading text-sm font-bold text-ink">
                 {c.label}
               </span>
-              <span className="mt-1 font-accent text-xs italic text-charcoal/55">
+              <span className="mt-1 font-accent text-xs text-charcoal/55">
                 {c.blurb}
               </span>
             </Link>
@@ -90,7 +90,7 @@ export function CategoryStrip() {
       {/* Desktop secondary row for remaining categories */}
       <div className="mt-10 hidden justify-center gap-6 md:flex">
         {categories.slice(3).map((c) => {
-          const Icon = iconMap[c.slug];
+          const Icon = iconMap[c.slug as CategorySlug];
           return (
             <Link
               key={c.slug}
@@ -100,7 +100,7 @@ export function CategoryStrip() {
               <span className="text-charcoal transition-colors duration-300 group-hover:text-gold-muted">
                 <Icon className="h-7 w-7" />
               </span>
-              <span className="font-heading text-xs font-bold uppercase tracking-wide2 text-ink group-hover:text-gold-muted">
+              <span className="font-heading text-[13px] font-bold text-ink group-hover:text-gold-muted">
                 {c.label}
               </span>
             </Link>

@@ -15,18 +15,18 @@ export default function WishlistPage() {
   return (
     <main>
       <PageHeader
-        eyebrow="Saved Pieces"
-        title="Wishlist"
-        subtitle={items.length ? undefined : "Nothing saved yet — tap the heart on any piece you love."}
+        eyebrow="قطعه‌های ذخیره‌شده"
+        title="علاقه‌مندی‌ها"
+        subtitle={items.length ? undefined : "هنوز چیزی ذخیره نکرده‌اید — روی قلب هر قطعه‌ای که دوست دارید بزنید."}
       />
       <div className="container-luxe py-16 md:py-20">
         {items.length === 0 ? (
           <div className="card-line flex flex-col items-center gap-4 px-8 py-20 text-center">
-            <p className="font-accent text-3xl italic text-charcoal/60">
-              Your wishlist is waiting.
+            <p className="font-accent text-3xl text-charcoal/60">
+              فهرست علاقه‌مندی‌های شما در انتظار است.
             </p>
             <Link to="/collection" className="btn-gold mt-2">
-              Discover Furniture
+              کشف مبلمان
             </Link>
           </div>
         ) : (

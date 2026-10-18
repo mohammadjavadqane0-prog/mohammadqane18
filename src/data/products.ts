@@ -11,6 +11,8 @@ export interface ProductColor {
   hex: string;
 }
 
+export type ProductBadge = "New" | "Bestseller" | "Limited";
+
 export interface Product {
   id: string;
   slug: string;
@@ -25,40 +27,47 @@ export interface Product {
   dimensions: { width: number; height: number; depth: number };
   images: string[];
   designerId: string;
-  badge?: "New" | "Bestseller" | "Limited";
+  badge?: ProductBadge;
   featured?: boolean;
   bestseller?: boolean;
 }
+
+/** Persian labels for product badges. */
+export const badgeLabels: Record<ProductBadge, string> = {
+  New: "تازه‌رسیده",
+  Bestseller: "پرفروش",
+  Limited: "نسخه محدود",
+};
 
 export const categoryMeta: Record<
   CategorySlug,
   { label: string; blurb: string }
 > = {
-  couches: { label: "Couches", blurb: "Comfortable sofas for relaxation" },
-  armchairs: { label: "Armchairs", blurb: "Comfortable armchairs for seating" },
-  chairs: { label: "Chairs", blurb: "Modern chairs for the office & home" },
-  tables: { label: "Tables", blurb: "Sculptural tables for gathering" },
-  lighting: { label: "Lighting", blurb: "Warm, cinematic illumination" },
-  storage: { label: "Storage", blurb: "Refined cabinetry & consoles" },
+  couches: { label: "مبل‌های راحتی", blurb: "مبل‌هایی راحت برای لحظه‌های آسودگی" },
+  armchairs: { label: "مبل‌های تک‌نفره", blurb: "صندلی‌های راحتی برای نشستن‌های دلخواه" },
+  chairs: { label: "صندلی‌ها", blurb: "صندلی‌های مدرن برای خانه و محل کار" },
+  tables: { label: "میزها", blurb: "میزهای مجسمه‌وار برای دور هم بودن" },
+  lighting: { label: "روشنایی", blurb: "نوری گرم و سینمایی" },
+  storage: { label: "کمد و فضای نگهداری", blurb: "کنسول‌ها و کابینت‌های ظریف" },
 };
 
 export const products: Product[] = [
   {
     id: "p-drop-chair",
     slug: "drop-chair",
-    name: "Drop Chair",
+    name: "صندلی دراپ",
     category: "armchairs",
     price: 1180,
     originalPrice: 1390,
     description:
-      "Stunning piece of furniture that combines modern design with timeless elegance. Its distinctive shape and bright yellow color make it a real eye-catcher in any room. The chair is not only stylish but also comfortable and soft.",
+      "صندلی دراپ، تلفیقی از طراحی مدرن، ظرافت و راحتی است. فرم منحصربه‌فرد، روکش چرمی باکیفیت و رنگ زرد گرم آن، جلوه‌ای چشم‌نواز به فضای زندگی شما می‌بخشد.",
     story:
-      "The Drop Chair began as a study in a single continuous gesture — a seat carved from one flowing curve. Its sculpted shell is finished in hand-dyed mustard leather over an oiled walnut frame, a signature of our The Yellow Leather Edition.",
-    material: "Hand-dyed leather, oiled walnut",
+      "صندلی دراپ با یک مطالعه در یک حرکت پیوسته آغاز شد — نشیمنی که از یک منحنی روان تراشیده شده است. پوستهٔ مجسمه‌وار آن با چرم خردلیِ رنگ‌شده به‌صورت دستی و روی قاب گردوی روغن‌خورده پرداخت می‌شود؛ امضای «نسخه چرم زرد» ما.",
+    material: "چرم رنگ‌شده دستی، گردوی روغن‌خورده",
     colors: [
-      { name: "Mustard", hex: "#C79535" },
-      { name: "Ivory", hex: "#E9E1D1" },
-      { name: "Forest", hex: "#172D26" },
+      { name: "خردلی", hex: "#C79535" },
+      { name: "عاجی", hex: "#E9E1D1" },
+      { name: "جنگلی", hex: "#172D26" },
     ],
     dimensions: { width: 72, height: 84, depth: 76 },
     images: [
@@ -74,18 +83,18 @@ export const products: Product[] = [
   {
     id: "p-ligne-sofa",
     slug: "ligne-sofa",
-    name: "Ligne Sofa",
+    name: "مبل لین",
     category: "couches",
     price: 3480,
     description:
-      "A generous three-seat sofa upholstered in deep forest velour. Low-slung and softly structured, it anchors a room with quiet authority.",
+      "مبل سه‌نفره‌ای جادار با روکش مخمل جنگلی عمیق. فرمِ پایین و ساختاری نرم، با اقتداری آرام قالبِ اتاق می‌شود.",
     story:
-      "Inspired by the salon culture of mid-century Brussels, Ligne pairs a beech frame with feather-wrapped foam seats that keep their shape for decades.",
-    material: "Forest velour, solid beech",
+      "الهام‌گرفته از فرهنگ سالن‌های بروکسلِ میانهٔ قرن، لین قاب راش را با نشیمن‌های فومی پیچیده‌شده در پر ترکیب می‌کند؛ ترکیبی که ده‌ها سال فرم خود را نگه می‌دارد.",
+    material: "مخمل جنگلی، راش یکپارچه",
     colors: [
-      { name: "Forest", hex: "#172D26" },
-      { name: "Champagne", hex: "#D8B16A" },
-      { name: "Ivory", hex: "#E9E1D1" },
+      { name: "جنگلی", hex: "#172D26" },
+      { name: "شامپاینی", hex: "#D8B16A" },
+      { name: "عاجی", hex: "#E9E1D1" },
     ],
     dimensions: { width: 228, height: 76, depth: 96 },
     images: [
@@ -100,18 +109,18 @@ export const products: Product[] = [
   {
     id: "p-milano-sofa",
     slug: "milano-sofa",
-    name: "Milano Sofa",
+    name: "مبل میلانو",
     category: "couches",
     price: 4200,
     description:
-      "A cinematic ivory leather sofa with brass-finished steel legs, made for dark, dramatic interiors and warm lamplight.",
+      "مبل چرم عاجیِ سینمایی با پایه‌های فولادی به پرداخت برنجی؛ ساخته‌شده برای فضاهای تیره و دراماتیک و نور گرم چراغ.",
     story:
-      "Every Milano is bench-made by a single upholsterer from first seam to final trim — a two-week craft carried out in our Milan atelier.",
-    material: "Full-grain leather, brushed brass steel",
+      "هر میلانو روی میز کارِ یک روکش‌کار و از دوخت اول تا تکمیل نهایی ساخته می‌شود — دو هفته هنر در آتلیهٔ میلان ما.",
+    material: "چرم دانه‌کامل، فولاد با پرداخت برنجی",
     colors: [
-      { name: "Ivory", hex: "#E9E1D1" },
-      { name: "Charcoal", hex: "#24231F" },
-      { name: "Mustard", hex: "#C79535" },
+      { name: "عاجی", hex: "#E9E1D1" },
+      { name: "ذغالی", hex: "#24231F" },
+      { name: "خردلی", hex: "#C79535" },
     ],
     dimensions: { width: 240, height: 78, depth: 100 },
     images: [
@@ -126,18 +135,18 @@ export const products: Product[] = [
   {
     id: "p-atelier-sofa",
     slug: "atelier-sofa",
-    name: "Atelier Sofa",
+    name: "مبل آتلیه",
     category: "couches",
     price: 2890,
     description:
-      "Deep cushions, sculpted arms and a whisper-soft bouclé weave — the Atelier is comfort tailored like couture.",
+      "کوسن‌های عمیق، دسته‌های مجسمه‌وار و بافت بوله‌ای به نرمی نجوا — آتلیه، راحتی‌ای است دوخته‌شده مثل پوشاک اوت‌کوتور.",
     story:
-      "Named for the workshop where it is made, the Atelier uses 4.2 kilometres of bouclé yarn per sofa, woven on a nineteenth-century loom.",
-    material: "Bouclé, kiln-dried hardwood",
+      "به نام کارگاهی که در آن ساخته می‌شود؛ آتلیه در هر مبل از ۴٫۲ کیلومتر نخ بوله بهره می‌گیرد که روی دستگاه بافِ قرن نوزدهمی بافته شده است.",
+    material: "بوله، چوب سخت خشک‌شده در کوره",
     colors: [
-      { name: "Oat", hex: "#DCD1BD" },
-      { name: "Moss", hex: "#2E4638" },
-      { name: "Champagne", hex: "#D8B16A" },
+      { name: "جو", hex: "#DCD1BD" },
+      { name: "خزه‌ای", hex: "#2E4638" },
+      { name: "شامپاینی", hex: "#D8B16A" },
     ],
     dimensions: { width: 210, height: 80, depth: 92 },
     images: [
@@ -150,18 +159,18 @@ export const products: Product[] = [
   {
     id: "p-belleville-couch",
     slug: "belleville-couch",
-    name: "Belleville Couch",
+    name: "مبل بلویل",
     category: "couches",
     price: 2240,
     description:
-      "A compact two-seater with a plinth base and unfussy lines — an elegant opening act for smaller apartments.",
+      "دونفره‌ای جمع‌وجور با پایه سکویی و خطوطی بی‌تکلف — آغازگری شیک برای آپارتمان‌های کوچک‌تر.",
     story:
-      "Drawn from a 1962 Parisian apartment commission, the Belleville keeps its original shallow-tufted backrest.",
-    material: "Linen weave, oak plinth",
+      "برگرفته از سفارش یک آپارتمان پاریسی در سال ۱۹۶۲، بلویل پشتی کوبیده‌شدهٔ کم‌عمق اصلی خود را نگه داشته است.",
+    material: "بافت کتان، پایه بلوط",
     colors: [
-      { name: "Ivory", hex: "#E9E1D1" },
-      { name: "Forest", hex: "#172D26" },
-      { name: "Clay", hex: "#A8825C" },
+      { name: "عاجی", hex: "#E9E1D1" },
+      { name: "جنگلی", hex: "#172D26" },
+      { name: "خاکی", hex: "#A8825C" },
     ],
     dimensions: { width: 182, height: 74, depth: 88 },
     images: [
@@ -175,18 +184,18 @@ export const products: Product[] = [
   {
     id: "p-vallnord-armchair",
     slug: "vallnord-armchair",
-    name: "Vallnord Armchair",
+    name: "صندلی راحتی والنورد",
     category: "armchairs",
     price: 1460,
     description:
-      "A rounded, enveloping armchair in soft beige weave with solid oak legs — the reading companion of the house.",
+      "صندلی راحتی گرد و دربرگیرنده در بافت بژ نرم با پایه‌های بلوط یکپارچه — همراهِ مطالعهٔ این خانه.",
     story:
-      "The Vallnord shell is moulded in a single pressing, giving the chair its seamless, hug-like silhouette.",
-    material: "Bouclé weave, solid oak",
+      "پوستهٔ والنورد در یک فشار قالب‌گیری می‌شود؛ رازی که به صندلی سیلوئت یکپارچه و آغوش‌گونه‌اش می‌بخشد.",
+    material: "بافت بوله، بلوط یکپارچه",
     colors: [
-      { name: "Beige", hex: "#DCD1BD" },
-      { name: "Charcoal", hex: "#24231F" },
-      { name: "Sage", hex: "#93B496" },
+      { name: "بژ", hex: "#DCD1BD" },
+      { name: "ذغالی", hex: "#24231F" },
+      { name: "سبز مریم‌گلی", hex: "#93B496" },
     ],
     dimensions: { width: 84, height: 92, depth: 88 },
     images: [
@@ -200,18 +209,18 @@ export const products: Product[] = [
   {
     id: "p-verde-salon-chair",
     slug: "verde-salon-chair",
-    name: "Verde Salon Chair",
+    name: "صندلی سالن ورده",
     category: "armchairs",
     price: 1290,
     description:
-      "Sun-warmed forest velvet and curved beech arms give the Verde the air of a private club, at home in any salon.",
+      "مخمل جنگلیِ گرم و دسته‌های خمیده راش، به ورده حال‌وهوای یک کلوب خصوصی می‌بخشد؛ در هر سالنی خانه می‌کند.",
     story:
-      "Its velvet is dyed in small batches to match our house forest green — a colour you will find nowhere else.",
-    material: "House velvet, steam-bent beech",
+      "مخمل آن در تیراژ کوچک به رنگ سبز جنگلی خانهٔ ما رنگ می‌شود؛ رنگی که در هیچ‌جای دیگری پیدا نمی‌کنید.",
+    material: "مخمل اختصاصی، راش خم‌شده با بخار",
     colors: [
-      { name: "Forest", hex: "#172D26" },
-      { name: "Gold", hex: "#B99252" },
-      { name: "Ivory", hex: "#E9E1D1" },
+      { name: "جنگلی", hex: "#172D26" },
+      { name: "طلایی", hex: "#B99252" },
+      { name: "عاجی", hex: "#E9E1D1" },
     ],
     dimensions: { width: 80, height: 88, depth: 84 },
     images: [
@@ -225,18 +234,18 @@ export const products: Product[] = [
   {
     id: "p-kotka-chair",
     slug: "kotka-chair",
-    name: "Kotka Chair",
+    name: "صندلی کوتکا",
     category: "chairs",
     price: 420,
     description:
-      "A pure wooden dining or desk chair in warm birch, its curved backrest shaped for hours of quiet work.",
+      "صندلی چوبی خالص برای غذاخوری یا میز کار، در توس گرم؛ پشتی خمیده‌اش برای ساعت‌ها کار آرام فرم گرفته است.",
     story:
-      "Kotka is machined from Finnish birch grown within 200 km of the workshop, then oiled by hand three times.",
-    material: "Solid birch, natural oil",
+      "کوتکا از توس فنلاندی که در ۲۰۰ کیلومتری کارگاه روییده است ماشین‌کاری و سپس سه بار به دست روغن‌کاری می‌شود.",
+    material: "توس یکپارچه، روغن طبیعی",
     colors: [
-      { name: "Birch", hex: "#C9A876" },
-      { name: "Walnut", hex: "#6B4B33" },
-      { name: "Ebony", hex: "#24231F" },
+      { name: "توس", hex: "#C9A876" },
+      { name: "گردویی", hex: "#6B4B33" },
+      { name: "آبنوس", hex: "#24231F" },
     ],
     dimensions: { width: 46, height: 82, depth: 50 },
     images: [
@@ -251,18 +260,18 @@ export const products: Product[] = [
   {
     id: "p-atelier-dining-chair",
     slug: "atelier-dining-chair",
-    name: "Atelier Dining Chair",
+    name: "صندلی غذاخوری آتلیه",
     category: "chairs",
     price: 380,
     description:
-      "A sculpted minimal chair in soft white fabric over moulded plywood — light in the hand, light in the room.",
+      "صندلی مینیمالِ مجسمه‌وار در پارچه سفید نرم روی تخته‌لای قالب‌ریخته — سبک در دست، سبک در فضا.",
     story:
-      "Just 3.9 kg per chair: the Atelier carries its comfort in a shell only 11 mm thick.",
-    material: "Moulded plywood, wool blend",
+      "تنها ۳٫۹ کیلوگرم برای هر صندلی: آتلیه راحتی‌اش را در پوسته‌ای به ضخامت ۱۱ میلی‌متر جای داده است.",
+    material: "تخته‌لای قالب‌ریخته، پشم مخلوط",
     colors: [
-      { name: "Chalk", hex: "#F4EFE4" },
-      { name: "Mustard", hex: "#C79535" },
-      { name: "Forest", hex: "#172D26" },
+      { name: "گچی", hex: "#F4EFE4" },
+      { name: "خردلی", hex: "#C79535" },
+      { name: "جنگلی", hex: "#172D26" },
     ],
     dimensions: { width: 44, height: 78, depth: 52 },
     images: [
@@ -275,18 +284,18 @@ export const products: Product[] = [
   {
     id: "p-heritage-chair",
     slug: "heritage-chair",
-    name: "Heritage Chair",
+    name: "صندلی هرمیتیج",
     category: "chairs",
     price: 520,
     description:
-      "An antique-inspired spindle chair, restored lines and all — a small piece of history for the breakfast table.",
+      "صندلی میله‌ای الهام‌گرفته از سبک عتیقه، با خطوط بازیابی‌شده — تکه‌ای کوچک از تاریخ برای میز صبحانه.",
     story:
-      "Each Heritage chair is aged and finished by hand, so no two patinas are alike.",
-    material: "Reclaimed pine, wax finish",
+      "هر صندلی هرمیتیج به دست کهنه‌کاری و پرداخت می‌شود؛ پس هیچ دو لایه‌ای شبیه هم نیستند.",
+    material: "کاج بازیافتی، پرداخت موم",
     colors: [
-      { name: "Honey", hex: "#B98A54" },
-      { name: "Ash", hex: "#8A8378" },
-      { name: "Forest", hex: "#172D26" },
+      { name: "عسلی", hex: "#B98A54" },
+      { name: "خاکستری", hex: "#8A8378" },
+      { name: "جنگلی", hex: "#172D26" },
     ],
     dimensions: { width: 48, height: 86, depth: 50 },
     images: [
@@ -299,18 +308,18 @@ export const products: Product[] = [
   {
     id: "p-ondulation-table",
     slug: "ondulation-table",
-    name: "Ondulation Table",
+    name: "میز اوندولاسیون",
     category: "tables",
     price: 1890,
     description:
-      "A solid-wood dining table whose breadboard ends ripple like water — seating six with room to breathe.",
+      "میز غذاخوری چوب یکپارچه که لبه‌هایش موج‌هایی چون آب دارند — جای نشستن شش نفر، با فضایی برای نفس کشیدن.",
     story:
-      "Cut from a single walnut flitch, the Ondulation's grain mirrors across the top like a mirrored drawing.",
-    material: "American walnut, brass pins",
+      "بریده‌شده از یک تکه گردوی یکپارچه؛ رگه‌های اوندولاسیون روی صفحه چون نقاشی‌ای آینه‌ای ادامه می‌یابند.",
+    material: "گردوی آمریکایی، میخ‌پون برنجی",
     colors: [
-      { name: "Walnut", hex: "#6B4B33" },
-      { name: "Oak", hex: "#C9A876" },
-      { name: "Ebony", hex: "#24231F" },
+      { name: "گردویی", hex: "#6B4B33" },
+      { name: "بلوطی", hex: "#C9A876" },
+      { name: "آبنوس", hex: "#24231F" },
     ],
     dimensions: { width: 210, height: 74, depth: 95 },
     images: [
@@ -324,18 +333,18 @@ export const products: Product[] = [
   {
     id: "p-farmhouse-table",
     slug: "farmhouse-table",
-    name: "Farmhouse Table",
+    name: "میز روستایی",
     category: "tables",
     price: 2150,
     description:
-      "Warmly lit rustic charm in solid pine, hand-planed to keep the marks of its making.",
+      "گرم و چوبی، در کاج یکپارچه که رندهٔ دستی، ردِ ساخته‌شدن را روی آن نگه داشته است.",
     story:
-      "A modern take on the communal farm table — built for long dinners and longer conversations.",
-    material: "Reclaimed pine, iron braces",
+      "روایتی مدرن از میز جمعی روستایی — ساخته‌شده برای شام‌های بلند و گفت‌وگوهای بلندتر.",
+    material: "کاج بازیافتی، مهار آهنی",
     colors: [
-      { name: "Rustic Pine", hex: "#A9793F" },
-      { name: "Whitewash", hex: "#EFE8DA" },
-      { name: "Charcoal", hex: "#24231F" },
+      { name: "کاج روستایی", hex: "#A9793F" },
+      { name: "سفیدشده", hex: "#EFE8DA" },
+      { name: "ذغالی", hex: "#24231F" },
     ],
     dimensions: { width: 220, height: 75, depth: 90 },
     images: [
@@ -348,18 +357,18 @@ export const products: Product[] = [
   {
     id: "p-solstice-floor-lamp",
     slug: "solstice-floor-lamp",
-    name: "Solstice Floor Lamp",
+    name: "چراغ ایستاده سولستیس",
     category: "lighting",
     price: 640,
     description:
-      "A slender arc lamp in aged brass that pours warm, cinematic light across sofas and reading chairs.",
+      "چراغ قوسی کشیده در برنجی کهنه که نوری گرم و سینمایی روی مبل و صندلی مطالعه می‌ریزد.",
     story:
-      "The Solstice's brass is left unlacquered so it earns its patina — like a good piece of furniture should.",
-    material: "Aged brass, linen shade",
+      "برنجِ سولستیس بدون لاک نگه داشته می‌شود تا لایهٔ کهنگی‌اش را به‌مرور به دست آورد؛ همان‌گونه که یک مبلمان خوب باید.",
+    material: "برنج کهنه، کاسه کتان",
     colors: [
-      { name: "Aged Brass", hex: "#B99252" },
-      { name: "Polished Gold", hex: "#D8B16A" },
-      { name: "Carbon", hex: "#24231F" },
+      { name: "برنج کهنه", hex: "#B99252" },
+      { name: "طلایی براق", hex: "#D8B16A" },
+      { name: "دودی", hex: "#24231F" },
     ],
     dimensions: { width: 42, height: 168, depth: 42 },
     images: [
@@ -373,18 +382,18 @@ export const products: Product[] = [
   {
     id: "p-trio-salon-lamps",
     slug: "trio-salon-lamps",
-    name: "Trio Salon Lamps",
+    name: "چراغ‌های رومیزی تریو",
     category: "lighting",
     price: 880,
     description:
-      "A family of three sculptural table lamps — set them on a console and the room arranges itself.",
+      "خانواده‌ای از سه چراغ رومیزی مجسمه‌وار — روی کنسول بچینید و اتاق خودش را مرتب می‌کند.",
     story:
-      "Turned, ground and balanced as a set, the Trio is shipped with matched dimmable warm bulbs.",
-    material: "Spun brass, opal glass",
+      "به‌صورت مجموعه تراش، سنگ‌زنی و بالانس می‌شود؛ تریو با لامپ‌های گرمِ کم‌نورشوندهٔ جفت‌شده ارسال می‌شود.",
+    material: "برنج تراش‌خورده، شیشه اُپال",
     colors: [
-      { name: "Brass", hex: "#B99252" },
-      { name: "Champagne", hex: "#D8B16A" },
-      { name: "Smoke", hex: "#4A4640" },
+      { name: "برنجی", hex: "#B99252" },
+      { name: "شامپاینی", hex: "#D8B16A" },
+      { name: "دودی", hex: "#4A4640" },
     ],
     dimensions: { width: 30, height: 56, depth: 30 },
     images: [
@@ -397,18 +406,18 @@ export const products: Product[] = [
   {
     id: "p-bois-console",
     slug: "bois-console",
-    name: "Bois Console",
+    name: "کنسول بوآ",
     category: "storage",
     price: 1320,
     description:
-      "A slim oak console with a floating drawer — perfect behind a sofa or in an entryway.",
+      "کنسول باریک بلوط با کشویی شناور — مناسب پشت مبل یا راهرو ورودی.",
     story:
-      "The drawer runs on waxed maple runners and closes with a felted sigh.",
-    material: "White oak, maple runners",
+      "کشو روی ریل‌های مومی‌شدهٔ افرا حرکت می‌کند و با نجوایی محو بسته می‌شود.",
+    material: "بلوط سفید، ریل افرا",
     colors: [
-      { name: "Oak", hex: "#C9A876" },
-      { name: "Smoked Oak", hex: "#7A5A3A" },
-      { name: "Forest", hex: "#172D26" },
+      { name: "بلوطی", hex: "#C9A876" },
+      { name: "بلوط دودی", hex: "#7A5A3A" },
+      { name: "جنگلی", hex: "#172D26" },
     ],
     dimensions: { width: 140, height: 82, depth: 36 },
     images: [
@@ -421,18 +430,18 @@ export const products: Product[] = [
   {
     id: "p-cucina-sideboard",
     slug: "cucina-sideboard",
-    name: "Cucina Sideboard",
+    name: "سایدبورد کوچینا",
     category: "storage",
     price: 1680,
     description:
-      "Scandinavian restraint in light wood — soft-close doors, inner drawers and a honey-toned finish.",
+      "خودداری اسکاندیناوی در چوب روشن — درهای آرام‌بسته، کشوهای داخلی و پرداخت عسلی.",
     story:
-      "Designed alongside our dining tables, the Cucina holds a full service for twelve behind two quiet doors.",
-    material: "Birch veneer, solid ash",
+      "همراه میزهای غذاخوری ما طراحی شده است؛ کوچینا سرویس کامل دوازده‌نفره را پشت دو درِ آرام جای می‌دهد.",
+    material: "روکش توس، زان یکپارچه",
     colors: [
-      { name: "Honey", hex: "#C9A876" },
-      { name: "Chalk", hex: "#F4EFE4" },
-      { name: "Charcoal", hex: "#24231F" },
+      { name: "عسلی", hex: "#C9A876" },
+      { name: "گچی", hex: "#F4EFE4" },
+      { name: "ذغالی", hex: "#24231F" },
     ],
     dimensions: { width: 180, height: 78, depth: 45 },
     images: [

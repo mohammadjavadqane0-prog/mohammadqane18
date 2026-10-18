@@ -27,33 +27,33 @@ export default function DesignerDetail() {
           <div className="aspect-[4/5] overflow-hidden">
             <img
               src={designer.portrait}
-              alt={`Portrait of ${designer.name}`}
+              alt={`پرتره ${designer.name}`}
               className="h-full w-full object-cover"
             />
           </div>
         </Reveal>
         <Reveal delay={120}>
-          <p className="eyebrow">Biography</p>
+          <p className="eyebrow">زندگی‌نامه</p>
           <p className="mt-5 max-w-xl font-body text-sm leading-relaxed text-charcoal/75 md:text-base">
             {designer.bio}
           </p>
-          <p className="mt-8 border-l-2 border-gold pl-5 font-accent text-2xl italic leading-relaxed text-forest">
-            “{designer.philosophy}”
+          <p className="mt-8 border-s-2 border-gold ps-5 font-accent text-2xl leading-relaxed text-forest">
+            «{designer.philosophy}»
           </p>
-          <p className="mt-8 font-heading text-[11px] font-semibold uppercase tracking-wide2 text-gold-muted">
-            Signature collection — {designer.signature}
+          <p className="mt-8 font-heading text-[12px] font-semibold text-gold-muted">
+            مجموعه امضا — {designer.signature}
           </p>
           <Link to="/collection" className="btn-outline-dark mt-8">
-            Browse All Furniture
+            مشاهده همه مبلمان
           </Link>
         </Reveal>
       </div>
 
-      <section className="bg-cream py-16 md:py-24" aria-label="Featured collection">
+      <section className="bg-cream py-16 md:py-24" aria-label="مجموعه منتخب">
         <div className="container-luxe">
           <Reveal>
-            <h2 className="font-heading text-2xl font-bold tracking-wide text-ink md:text-3xl">
-              {designer.name}'s featured collection
+            <h2 className="font-heading text-2xl font-bold text-ink md:text-3xl">
+              مجموعه منتخب {designer.name}
             </h2>
           </Reveal>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">

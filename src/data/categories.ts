@@ -5,10 +5,10 @@ export interface Category {
 }
 
 export const categories: Category[] = [
-  { slug: "couches", label: "Couches", blurb: "Comfortable sofas for relaxation" },
-  { slug: "armchairs", label: "Armchairs", blurb: "Comfortable armchairs for seating" },
-  { slug: "chairs", label: "Chairs", blurb: "Modern chairs for the office & home" },
-  { slug: "tables", label: "Tables", blurb: "Sculptural tables for gathering" },
-  { slug: "lighting", label: "Lighting", blurb: "Warm, cinematic illumination" },
-  { slug: "storage", label: "Storage", blurb: "Refined cabinetry & consoles" },
+  { slug: "couches", label: "مبل‌های راحتی", blurb: "مبل‌هایی راحت برای لحظه‌های آسودگی" },
+  { slug: "armchairs", label: "مبل‌های تک‌نفره", blurb: "صندلی‌های راحتی برای نشستن‌های دلخواه" },
+  { slug: "chairs", label: "صندلی‌ها", blurb: "صندلی‌های مدرن برای خانه و محل کار" },
+  { slug: "tables", label: "میزها", blurb: "میزهای مجسمه‌وار برای دور هم بودن" },
+  { slug: "lighting", label: "روشنایی", blurb: "نوری گرم و سینمایی" },
+  { slug: "storage", label: "کمد و فضای نگهداری", blurb: "کنسول‌ها و کابینت‌های ظریف" },
 ];

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatPrice, useStore } from "../context/StoreContext";
-import type { Product } from "../data/products";
+import { categoryMeta, type Product } from "../data/products";
+import { faNum } from "../lib/fa";
 import { IconClose, IconMinus, IconPlus } from "./icons";
 import { WishlistButton } from "./WishlistButton";
 
@@ -31,7 +32,7 @@ export function QuickViewModal({
       className="fixed inset-0 z-[70] grid place-items-center p-4"
       role="dialog"
       aria-modal="true"
-      aria-label={`${product.name} quick view`}
+      aria-label={`نمایش سریع ${product.name}`}
     >
       <div
         className="absolute inset-0 bg-forest-deepest/75 backdrop-blur-sm animate-fade-in"
@@ -51,13 +52,13 @@ export function QuickViewModal({
         <div className="relative flex flex-col p-7 md:p-9">
           <button
             onClick={onClose}
-            aria-label="Close quick view"
+            aria-label="بستن نمایش سریع"
             className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full border border-charcoal/15 text-charcoal/70 transition-colors hover:bg-charcoal hover:text-ivory"
           >
             <IconClose className="h-4 w-4" />
           </button>
-          <p className="eyebrow">{product.category}</p>
-          <h3 className="mt-2 font-heading text-2xl font-bold tracking-wide text-ink">
+          <p className="eyebrow">{categoryMeta[product.category].label}</p>
+          <h3 className="mt-2 font-heading text-2xl font-bold text-ink">
             {product.name}
           </h3>
           <p className="mt-2 font-heading text-lg font-bold text-gold-muted">
@@ -68,8 +69,8 @@ export function QuickViewModal({
           </p>
 
           <div className="mt-5">
-            <p className="font-heading text-[10px] font-semibold uppercase tracking-wide2 text-charcoal/60">
-              Finish — {color}
+            <p className="font-heading text-[11px] font-semibold text-charcoal/60">
+              پرداخت — {color}
             </p>
             <div className="mt-2 flex gap-2">
               {product.colors.map((c) => (
@@ -95,17 +96,20 @@ export function QuickViewModal({
               <div className="flex items-center border border-charcoal/15">
                 <button
                   className="grid h-10 w-10 place-items-center text-charcoal/70 transition-colors hover:bg-charcoal/5"
-                  aria-label="Decrease quantity"
+                  aria-label="کاهش تعداد"
                   onClick={() => setQty((q) => Math.max(1, q - 1))}
                 >
                   <IconMinus />
                 </button>
-                <span className="w-8 text-center font-heading text-sm font-bold" aria-live="polite">
-                  {qty}
+                <span
+                  className="w-8 text-center font-heading text-sm font-bold"
+                  aria-live="polite"
+                >
+                  {faNum(qty)}
                 </span>
                 <button
                   className="grid h-10 w-10 place-items-center text-charcoal/70 transition-colors hover:bg-charcoal/5"
-                  aria-label="Increase quantity"
+                  aria-label="افزایش تعداد"
                   onClick={() => setQty((q) => Math.min(9, q + 1))}
                 >
                   <IconPlus />
@@ -118,14 +122,14 @@ export function QuickViewModal({
                   onClose();
                 }}
               >
-                Add to Cart
+                افزودن به سبد خرید
               </button>
             </div>
             <Link
               to={`/product/${product.slug}`}
-              className="mt-3 block text-center font-heading text-[11px] font-semibold uppercase tracking-wide2 text-gold-muted underline-offset-4 hover:underline"
+              className="mt-3 block text-center font-heading text-[12px] font-semibold text-gold-muted underline-offset-4 hover:underline"
             >
-              View full details
+              مشاهده جزئیات کامل
             </Link>
           </div>
         </div>

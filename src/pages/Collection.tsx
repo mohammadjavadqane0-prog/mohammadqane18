@@ -4,8 +4,12 @@ import { PageHeader } from "../components/PageHeader";
 import { ProductCard } from "../components/ProductCard";
 import { Reveal } from "../components/Reveal";
 import { categories } from "../data/categories";
-import { products, type CategorySlug } from "../data/products";
-import { formatPrice } from "../context/StoreContext";
+import {
+  products,
+  categoryMeta,
+  type CategorySlug,
+} from "../data/products";
+import { faNum, normalizeFa } from "../lib/fa";
 
 const allMaterials = Array.from(new Set(products.map((p) => p.material)));
 const colorNames = Array.from(
@@ -13,17 +17,17 @@ const colorNames = Array.from(
 );
 
 const priceBands = [
-  { label: "Under $500", min: 0, max: 500 },
-  { label: "$500 – $1,500", min: 500, max: 1500 },
-  { label: "$1,500 – $3,000", min: 1500, max: 3000 },
-  { label: "$3,000+", min: 3000, max: Infinity },
+  { label: "زیر ۵۰۰ تومان", min: 0, max: 500 },
+  { label: "۵۰۰ تا ۱٬۵۰۰ تومان", min: 500, max: 1500 },
+  { label: "۱٬۵۰۰ تا ۳٬۰۰۰ تومان", min: 1500, max: 3000 },
+  { label: "بیش از ۳٬۰۰۰ تومان", min: 3000, max: Infinity },
 ];
 
 const sorts = [
-  { value: "featured", label: "Featured" },
-  { value: "price-asc", label: "Price: Low to High" },
-  { value: "price-desc", label: "Price: High to Low" },
-  { value: "name", label: "Name A–Z" },
+  { value: "featured", label: "منتخب‌ها" },
+  { value: "price-asc", label: "قیمت: از کم به زیاد" },
+  { value: "price-desc", label: "قیمت: از زیاد به کم" },
+  { value: "name", label: "نام (الف تا ی)" },
 ];
 
 export default function CollectionPage() {
@@ -57,11 +61,9 @@ export default function CollectionPage() {
     if (activeCategory !== "all")
       list = list.filter((p) => p.category === activeCategory);
     if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
+      const q = normalizeFa(searchQuery);
       list = list.filter((p) =>
-        `${p.name} ${p.category} ${p.material} ${p.description}`
-          .toLowerCase()
-          .includes(q)
+        normalizeFa(`${p.name} ${p.material} ${p.description}`).includes(q)
       );
     }
     if (priceBand !== null) {
@@ -70,7 +72,7 @@ export default function CollectionPage() {
     }
     if (materials.length)
       list = list.filter((p) =>
-        materials.some((m) => p.material.toLowerCase().includes(m.toLowerCase()))
+        materials.some((m) => p.material.includes(m))
       );
     if (colors.length)
       list = list.filter((p) => p.colors.some((c) => colors.includes(c.name)));
@@ -82,14 +84,14 @@ export default function CollectionPage() {
         list.sort((a, b) => b.price - a.price);
         break;
       case "name":
-        list.sort((a, b) => a.name.localeCompare(b.name));
+        list.sort((a, b) => a.name.localeCompare(b.name, "fa"));
         break;
     }
     return list;
   }, [activeCategory, searchQuery, priceBand, materials, colors, sort]);
 
   const chip = (activeState: boolean) =>
-    `rounded-full border px-4 py-2 font-heading text-[11px] font-semibold uppercase tracking-wide2 transition-all duration-300 ${
+    `rounded-full border px-4 py-2 font-heading text-[12px] font-semibold transition-all duration-300 ${
       activeState
         ? "border-gold bg-gold text-forest-deep"
         : "border-charcoal/15 bg-white text-charcoal/70 hover:border-gold-muted hover:text-gold-muted"
@@ -98,10 +100,10 @@ export default function CollectionPage() {
   const filterPanel = (
     <div className="space-y-8">
       <div>
-        <p className="eyebrow">Category</p>
+        <p className="eyebrow">دسته‌بندی</p>
         <div className="mt-3 flex flex-wrap gap-2">
           <Link to="/collection" className={chip(activeCategory === "all")}>
-            All
+            همه دسته‌بندی‌ها
           </Link>
           {categories.map((c) => (
             <Link
@@ -115,7 +117,7 @@ export default function CollectionPage() {
         </div>
       </div>
       <div>
-        <p className="eyebrow">Price</p>
+        <p className="eyebrow">محدوده قیمت</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {priceBands.map((b, i) => (
             <button
@@ -130,7 +132,7 @@ export default function CollectionPage() {
         </div>
       </div>
       <div>
-        <p className="eyebrow">Material</p>
+        <p className="eyebrow">جنس</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {allMaterials.map((m) => (
             <button
@@ -145,7 +147,7 @@ export default function CollectionPage() {
         </div>
       </div>
       <div>
-        <p className="eyebrow">Color</p>
+        <p className="eyebrow">رنگ</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {colorNames.map((c) => (
             <button
@@ -168,7 +170,7 @@ export default function CollectionPage() {
             setColors([]);
           }}
         >
-          Clear filters
+          پاک کردن فیلترها
         </button>
       )}
     </div>
@@ -177,10 +179,14 @@ export default function CollectionPage() {
   return (
     <main>
       <PageHeader
-        eyebrow={
-          activeCategory === "all" ? "The Collection" : categoryMetaLabel(activeCategory)
+        eyebrow="مجموعه‌های ما"
+        title={
+          activeCategory === "all"
+            ? searchQuery
+              ? `«${searchQuery}»`
+              : "مبلمان"
+            : categoryMeta[activeCategory].label
         }
-        title={activeCategory === "all" ? (searchQuery ? `“${searchQuery}”` : "Furniture") : activeCategory}
         subtitle={
           activeCategory === "all"
             ? undefined
@@ -199,23 +205,23 @@ export default function CollectionPage() {
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center justify-between gap-3 pb-6">
               <p className="font-body text-sm text-charcoal/60" aria-live="polite">
-                {loading ? "Curating…" : `${results.length} piece${results.length === 1 ? "" : "s"}`}
+                {loading ? "در حال انتخاب…" : `${faNum(results.length)} محصول`}
               </p>
               <div className="flex items-center gap-3">
                 <button
-                  className="rounded-full border border-charcoal/15 bg-white px-4 py-2 font-heading text-[11px] font-semibold uppercase tracking-wide2 lg:hidden"
+                  className="rounded-full border border-charcoal/15 bg-white px-4 py-2 font-heading text-[12px] font-semibold lg:hidden"
                   onClick={() => setMobileFilters(true)}
                 >
-                  Filters
+                  فیلتر
                 </button>
                 <label className="sr-only" htmlFor="sort">
-                  Sort products
+                  مرتب‌سازی محصولات
                 </label>
                 <select
                   id="sort"
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
-                  className="border border-charcoal/15 bg-white px-4 py-2 font-heading text-[11px] font-semibold uppercase tracking-wide2 text-charcoal focus:border-gold-muted focus:outline-none"
+                  className="border border-charcoal/15 bg-white px-4 py-2 font-heading text-[12px] font-semibold text-charcoal focus:border-gold-muted focus:outline-none"
                 >
                   {sorts.map((s) => (
                     <option key={s.value} value={s.value}>
@@ -230,7 +236,7 @@ export default function CollectionPage() {
               <div
                 className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 xl:grid-cols-3"
                 aria-busy="true"
-                aria-label="Loading products"
+                aria-label="در حال بارگذاری محصولات"
               >
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div key={i} className="animate-pulse">
@@ -242,15 +248,14 @@ export default function CollectionPage() {
               </div>
             ) : results.length === 0 ? (
               <div className="card-line flex flex-col items-center gap-3 px-8 py-20 text-center">
-                <p className="font-accent text-2xl italic text-charcoal/60">
-                  Nothing matches — yet.
+                <p className="font-accent text-2xl text-charcoal/60">
+                  محصولی مطابق جستجوی شما پیدا نشد.
                 </p>
                 <p className="max-w-sm font-body text-sm text-charcoal/55">
-                  Try removing a filter, or explore the full collection for
-                  inspiration.
+                  یکی از فیلترها را بردارید یا برای الهام، مجموعه کامل را ببینید.
                 </p>
                 <Link to="/collection" className="btn-gold mt-2">
-                  View All Furniture
+                  مشاهده همه مبلمان
                 </Link>
               </div>
             ) : (
@@ -273,7 +278,7 @@ export default function CollectionPage() {
         }`}
         role="dialog"
         aria-modal="true"
-        aria-label="Filters"
+        aria-label="فیلترها"
       >
         <div
           className={`absolute inset-0 bg-forest-deepest/60 transition-opacity duration-300 ${
@@ -287,14 +292,12 @@ export default function CollectionPage() {
           }`}
         >
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="font-heading text-sm font-bold uppercase tracking-wide2">
-              Filters
-            </h2>
+            <h2 className="font-heading text-sm font-bold">فیلتر</h2>
             <button
               onClick={() => setMobileFilters(false)}
-              className="btn-gold !px-5 !py-2 text-[10px]"
+              className="btn-gold !px-5 !py-2 text-[12px]"
             >
-              Show results
+              نمایش نتایج
             </button>
           </div>
           {filterPanel}
@@ -302,8 +305,4 @@ export default function CollectionPage() {
       </div>
     </main>
   );
-}
-
-function categoryMetaLabel(cat: string) {
-  return cat.charAt(0).toUpperCase() + cat.slice(1);
 }

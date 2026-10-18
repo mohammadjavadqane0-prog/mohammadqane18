@@ -4,6 +4,7 @@ import { NotFound } from "./NotFound";
 import { BlogGrid } from "./Blog";
 import { Reveal } from "../components/Reveal";
 import { blogPosts } from "../data/editorial";
+import { faDate } from "../lib/fa";
 
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -25,15 +26,11 @@ export default function BlogPostPage() {
             <p className="eyebrow !text-gold">
               {post.category} · {post.readTime}
             </p>
-            <h1 className="mx-auto mt-4 max-w-3xl font-heading text-3xl font-bold tracking-wide text-ivory md:text-5xl">
+            <h1 className="mx-auto mt-4 max-w-3xl font-heading text-3xl font-bold text-ivory md:text-5xl">
               {post.title}
             </h1>
             <p className="mt-4 font-body text-sm text-ivory/60">
-              {new Date(post.date).toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
+              {faDate(post.date)}
             </p>
           </div>
         </header>
@@ -48,7 +45,7 @@ export default function BlogPostPage() {
             {post.content.map((para, i) => (
               <Reveal key={i} delay={i * 60}>
                 <p
-                  className={`font-body leading-relaxed text-charcoal/80 ${
+                  className={`font-body leading-loose text-charcoal/80 ${
                     i === 0 ? "text-lg" : "text-[15px]"
                   }`}
                 >
@@ -60,18 +57,18 @@ export default function BlogPostPage() {
           <div className="mt-12 border-t border-charcoal/10 pt-8">
             <Link
               to="/blog"
-              className="font-heading text-[11px] font-semibold uppercase tracking-wide2 text-gold-muted hover:text-ink"
+              className="font-heading text-[12px] font-semibold text-gold-muted hover:text-ink"
             >
-              ← Back to the magazine
+              ← بازگشت به مجله
             </Link>
           </div>
         </div>
       </article>
 
-      <section className="bg-cream py-16 md:py-24" aria-label="More articles">
+      <section className="bg-cream py-16 md:py-24" aria-label="مقاله‌های بیشتر">
         <div className="container-luxe">
-          <h2 className="font-heading text-2xl font-bold tracking-wide text-ink">
-            Keep reading
+          <h2 className="font-heading text-2xl font-bold text-ink">
+            ادامه مطالعه
           </h2>
           <div className="mt-10">
             <BlogGrid />

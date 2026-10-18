@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { formatPrice, useStore } from "../context/StoreContext";
 import { PageHeader } from "../components/PageHeader";
+import { categoryMeta } from "../data/products";
+import { faNum } from "../lib/fa";
 import { IconClose, IconMinus, IconPlus } from "../components/icons";
 
 export function CartLines() {
@@ -21,12 +23,12 @@ export function CartLines() {
               <div>
                 <Link
                   to={`/product/${product.slug}`}
-                  className="font-heading text-base font-bold tracking-wide text-ink hover:text-gold-muted"
+                  className="font-heading text-base font-bold text-ink hover:text-gold-muted"
                 >
                   {product.name}
                 </Link>
                 <p className="mt-1 font-body text-xs text-charcoal/55">
-                  {product.category} · Finish: {item.color}
+                  {categoryMeta[product.category].label} · پرداخت: {item.color}
                 </p>
               </div>
               <p className="whitespace-nowrap font-heading text-sm font-bold">
@@ -37,17 +39,20 @@ export function CartLines() {
               <div className="flex items-center border border-charcoal/15 bg-white">
                 <button
                   className="grid h-8 w-8 place-items-center text-charcoal/70 hover:bg-charcoal/5"
-                  aria-label="Decrease quantity"
+                  aria-label="کاهش تعداد"
                   onClick={() => updateQty(item.productId, item.color, item.qty - 1)}
                 >
                   <IconMinus className="h-3.5 w-3.5" />
                 </button>
-                <span className="w-8 text-center font-heading text-xs font-bold" aria-live="polite">
-                  {item.qty}
+                <span
+                  className="w-8 text-center font-heading text-xs font-bold"
+                  aria-live="polite"
+                >
+                  {faNum(item.qty)}
                 </span>
                 <button
                   className="grid h-8 w-8 place-items-center text-charcoal/70 hover:bg-charcoal/5"
-                  aria-label="Increase quantity"
+                  aria-label="افزایش تعداد"
                   onClick={() => updateQty(item.productId, item.color, item.qty + 1)}
                 >
                   <IconPlus className="h-3.5 w-3.5" />
@@ -57,7 +62,7 @@ export function CartLines() {
                 className="inline-flex items-center gap-1 font-body text-xs text-charcoal/45 transition-colors hover:text-red-600"
                 onClick={() => removeFromCart(item.productId, item.color)}
               >
-                <IconClose className="h-3.5 w-3.5" /> Remove
+                <IconClose className="h-3.5 w-3.5" /> حذف
               </button>
             </div>
           </div>
@@ -72,15 +77,15 @@ export default function CartPage() {
 
   return (
     <main>
-      <PageHeader eyebrow="Your Selection" title="Shopping Cart" />
+      <PageHeader eyebrow="انتخاب شما" title="سبد خرید" />
       <div className="container-luxe py-16 md:py-20">
         {cartDetailed.length === 0 ? (
           <div className="card-line flex flex-col items-center gap-4 px-8 py-20 text-center">
-            <p className="font-accent text-3xl italic text-charcoal/60">
-              Your cart is empty.
+            <p className="font-accent text-3xl text-charcoal/60">
+              سبد خرید شما خالی است.
             </p>
             <Link to="/collection" className="btn-gold mt-2">
-              Explore Collection
+              مشاهده مجموعه‌ها
             </Link>
           </div>
         ) : (
@@ -89,35 +94,35 @@ export default function CartPage() {
               <CartLines />
             </div>
             <aside className="card-line h-fit p-7">
-              <h2 className="font-heading text-sm font-bold uppercase tracking-wide2">
-                Order Summary
+              <h2 className="font-heading text-sm font-bold">
+                خلاصه سفارش
               </h2>
               <dl className="mt-5 space-y-3 font-body text-sm text-charcoal/70">
                 <div className="flex justify-between">
-                  <dt>Subtotal</dt>
+                  <dt>جمع جزء</dt>
                   <dd className="font-heading font-bold text-ink">
                     {formatPrice(cartTotal)}
                   </dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt>White-glove delivery</dt>
-                  <dd>{cartTotal >= 1000 ? "Included" : formatPrice(120)}</dd>
+                  <dt>ارسال تشریفاتی</dt>
+                  <dd>{cartTotal >= 1000 ? "رایگان" : formatPrice(120)}</dd>
                 </div>
                 <div className="flex justify-between border-t border-charcoal/10 pt-3 text-base">
-                  <dt className="font-heading font-bold text-ink">Estimated total</dt>
+                  <dt className="font-heading font-bold text-ink">مبلغ کل</dt>
                   <dd className="font-heading font-bold text-ink">
                     {formatPrice(cartTotal + (cartTotal >= 1000 ? 0 : 120))}
                   </dd>
                 </div>
               </dl>
               <Link to="/checkout" className="btn-gold mt-7 w-full">
-                Proceed to Checkout
+                ادامه فرایند خرید
               </Link>
               <Link
                 to="/collection"
-                className="mt-4 block text-center font-heading text-[11px] font-semibold uppercase tracking-wide2 text-gold-muted hover:text-ink"
+                className="mt-4 block text-center font-heading text-[12px] font-semibold text-gold-muted hover:text-ink"
               >
-                Continue browsing
+                ادامه خرید
               </Link>
             </aside>
           </div>

@@ -3,7 +3,7 @@ import { PageHeader } from "../components/PageHeader";
 import { Reveal } from "../components/Reveal";
 import { IconCheck } from "../components/icons";
 
-const topics = ["General", "Order support", "Trade & contract", "Press"];
+const topics = ["پرسش عمومی", "پیگیری سفارش", "پروژه‌های سازمانی", "رسانه‌ها"];
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", topic: topics[0], message: "" });
@@ -18,11 +18,11 @@ export default function ContactPage() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const errs: Record<string, string> = {};
-    if (form.name.trim().length < 2) errs.name = "Please tell us your name.";
+    if (form.name.trim().length < 2) errs.name = "تکمیل این فیلد الزامی است.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
-      errs.email = "Please enter a valid email address.";
+      errs.email = "لطفاً یک ایمیل معتبر وارد کنید.";
     if (form.message.trim().length < 12)
-      errs.message = "Please write at least a few words (12+ characters).";
+      errs.message = "لطفاً چند کلمه بیشتر بنویسید (۱۲ نویسه به بالا).";
     setErrors(errs);
     if (Object.keys(errs).length === 0) setSent(true);
   };
@@ -30,9 +30,9 @@ export default function ContactPage() {
   return (
     <main>
       <PageHeader
-        eyebrow="We're Listening"
-        title="Contact"
-        subtitle="Questions, trade enquiries or a room that needs help — write to us."
+        eyebrow="گوش می‌دهیم"
+        title="تماس با ما"
+        subtitle="پرسش، پروژه سازمانی یا فضایی که کمک می‌خواهد — برای ما بنویسید."
         image="/images/lamp-corner.jpg"
       />
       <div className="container-luxe grid gap-12 py-16 md:grid-cols-[1.2fr_1fr] md:py-24">
@@ -42,12 +42,12 @@ export default function ContactPage() {
               <span className="grid h-12 w-12 place-items-center rounded-full bg-gold text-forest-deep">
                 <IconCheck className="h-5 w-5" />
               </span>
-              <h2 className="font-heading text-2xl font-bold tracking-wide text-ink">
-                Message received
+              <h2 className="font-heading text-2xl font-bold text-ink">
+                پیام شما دریافت شد
               </h2>
               <p className="max-w-sm font-body text-sm text-charcoal/65">
-                Thank you, {form.name.split(" ")[0]}. Our atelier replies within
-                one business day. (Demo submission — nothing was sent externally.)
+                سپاس، {form.name.split(" ")[0]}. آتلیه ما ظرف یک روز کاری پاسخ
+                می‌دهد. (ارسال نمایشی — چیزی به بیرون فرستاده نشد.)
               </p>
               <button
                 className="btn-outline-dark mt-2"
@@ -56,15 +56,15 @@ export default function ContactPage() {
                   setForm({ name: "", email: "", topic: topics[0], message: "" });
                 }}
               >
-                Send another
+                ارسال پیام دیگر
               </button>
             </div>
           ) : (
-            <form onSubmit={submit} noValidate aria-label="Contact form">
+            <form onSubmit={submit} noValidate aria-label="فرم تماس">
               <div className="grid gap-6 sm:grid-cols-2">
                 <div>
                   <label htmlFor="c-name" className="eyebrow mb-2 block">
-                    Name
+                    نام و نام خانوادگی
                   </label>
                   <input
                     id="c-name"
@@ -82,7 +82,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <label htmlFor="c-email" className="eyebrow mb-2 block">
-                    Email
+                    ایمیل
                   </label>
                   <input
                     id="c-email"
@@ -92,6 +92,7 @@ export default function ContactPage() {
                     onChange={(e) => set("email", e.target.value)}
                     aria-invalid={!!errors.email}
                     aria-describedby={errors.email ? "c-email-err" : undefined}
+                    dir="ltr"
                   />
                   {errors.email && (
                     <p id="c-email-err" className="mt-1.5 font-body text-xs text-red-600" role="alert">
@@ -102,7 +103,7 @@ export default function ContactPage() {
               </div>
               <div className="mt-6">
                 <label htmlFor="c-topic" className="eyebrow mb-2 block">
-                  Topic
+                  موضوع
                 </label>
                 <select
                   id="c-topic"
@@ -117,7 +118,7 @@ export default function ContactPage() {
               </div>
               <div className="mt-6">
                 <label htmlFor="c-message" className="eyebrow mb-2 block">
-                  Message
+                  پیام
                 </label>
                 <textarea
                   id="c-message"
@@ -135,7 +136,7 @@ export default function ContactPage() {
                 )}
               </div>
               <button type="submit" className="btn-gold mt-8 min-w-[200px]">
-                Send Message
+                ارسال پیام
               </button>
             </form>
           )}
@@ -143,33 +144,37 @@ export default function ContactPage() {
 
         <Reveal delay={140}>
           <aside className="bg-forest p-9 text-ivory md:p-12">
-            <p className="eyebrow !text-gold">The Atelier</p>
+            <p className="eyebrow !text-gold">آتلیه</p>
             <address className="mt-6 space-y-6 font-body not-italic text-sm leading-relaxed text-ivory/70">
               <div>
-                <p className="font-heading text-[10px] uppercase tracking-wide2 text-gold">
-                  Flagship & Workshop
+                <p className="font-heading text-[11px] text-gold">
+                  نمایشگاه و کارگاه
                 </p>
-                <p className="mt-1">Rue du Vieux Marché 14</p>
-                <p>1000 Brussels, Belgium</p>
+                <p className="mt-1">خیابان rue du Vieux Marché ۱۴</p>
+                <p>بروکسل ۱۰۰۰، بلژیک</p>
               </div>
               <div>
-                <p className="font-heading text-[10px] uppercase tracking-wide2 text-gold">
-                  Email
+                <p className="font-heading text-[11px] text-gold">
+                  ایمیل
                 </p>
-                <p className="mt-1">atelier@maisonvert.example</p>
+                <p className="mt-1" dir="ltr" style={{ textAlign: "start" }}>
+                  atelier@maisonvert.example
+                </p>
               </div>
               <div>
-                <p className="font-heading text-[10px] uppercase tracking-wide2 text-gold">
-                  Telephone
+                <p className="font-heading text-[11px] text-gold">
+                  تلفن
                 </p>
-                <p className="mt-1">+32 2 000 00 00</p>
+                <p className="mt-1" dir="ltr" style={{ textAlign: "start" }}>
+                  +32 2 000 00 00
+                </p>
               </div>
               <div>
-                <p className="font-heading text-[10px] uppercase tracking-wide2 text-gold">
-                  Opening hours
+                <p className="font-heading text-[11px] text-gold">
+                  ساعات کاری
                 </p>
-                <p className="mt-1">Mon–Sat, 10:00–19:00</p>
-                <p>Sunday by appointment</p>
+                <p className="mt-1">شنبه تا پنجشنبه، ۱۰ تا ۱۹</p>
+                <p>جمعه‌ها با وقت قبلی</p>
               </div>
             </address>
           </aside>

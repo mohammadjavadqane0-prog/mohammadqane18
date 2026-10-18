@@ -14,7 +14,7 @@ export function NewsletterForm({ tone = "light" }: { tone?: "light" | "dark" }) 
     e.preventDefault();
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
     if (!valid) {
-      setError("Please enter a valid email address.");
+      setError("لطفاً یک ایمیل معتبر وارد کنید.");
       return;
     }
     setError("");
@@ -29,8 +29,8 @@ export function NewsletterForm({ tone = "light" }: { tone?: "light" | "dark" }) 
         }`}
         role="status"
       >
-        <IconCheck /> Subscribed — welcome to the atelier list. (Demo: no email
-        was sent.)
+        <IconCheck /> عضویت شما ثبت شد — به فهرست خبرنامه خوش آمدید. (نمایشی:
+        ایمیلی ارسال نشد.)
       </p>
     );
   }
@@ -45,7 +45,7 @@ export function NewsletterForm({ tone = "light" }: { tone?: "light" | "dark" }) 
         } transition-colors focus-within:border-gold-muted`}
       >
         <label htmlFor={dark ? "nl-footer" : "nl-home"} className="sr-only">
-          Email address
+          نشانی ایمیل
         </label>
         <input
           id={dark ? "nl-footer" : "nl-home"}
@@ -55,7 +55,7 @@ export function NewsletterForm({ tone = "light" }: { tone?: "light" | "dark" }) 
             setEmail(e.target.value);
             setError("");
           }}
-          placeholder="Your email address"
+          placeholder="نشانی ایمیل شما"
           className={`w-full bg-transparent px-5 py-3 font-body text-sm ${
             dark
               ? "text-ivory placeholder:text-ivory/35"
@@ -64,14 +64,14 @@ export function NewsletterForm({ tone = "light" }: { tone?: "light" | "dark" }) 
         />
         <button
           type="submit"
-          className="shrink-0 bg-gold px-6 font-heading text-[11px] font-semibold uppercase tracking-wide2 text-forest-deep transition-all duration-300 hover:bg-gold-soft"
+          className="shrink-0 bg-gold px-6 font-heading text-[12px] font-semibold text-forest-deep transition-all duration-300 hover:bg-gold-soft"
         >
-          Subscribe
+          عضویت
         </button>
       </div>
       {error && (
         <p
-          className="mt-2 pl-2 font-body text-xs text-red-400"
+          className="mt-2 ps-2 font-body text-xs text-red-400"
           role="alert"
         >
           {error}

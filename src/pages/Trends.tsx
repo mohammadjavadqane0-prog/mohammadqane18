@@ -3,49 +3,50 @@ import { Link } from "react-router-dom";
 import { PageHeader } from "../components/PageHeader";
 import { Reveal } from "../components/Reveal";
 import { blogPosts } from "../data/editorial";
+import { faDate } from "../lib/fa";
 
 const concepts = [
   {
-    title: "The Dark Salon",
-    text: "Forest-green walls, pale leather, a single brass lamp. Drama without noise.",
+    title: "سالن تیره",
+    text: "دیوارهای سبز جنگلی، چرم روشن و یک چراغ برنجی. درام، بی‌هیچ سر و صدایی.",
     image: "/images/collection-comfort.jpg",
-    tag: "Room Concept",
+    tag: "ایده فضا",
   },
   {
-    title: "Warm Minimalism",
-    text: "Neutral bouclé, pale oak and candlelight — calm rooms that still feel rich.",
+    title: "مینیمالیسم گرم",
+    text: "بوله بی‌رنگ، بلوط روشن و نور شمع — اتاق‌هایی آرام که همچنان غنی به نظر می‌رسند.",
     image: "/images/interior-minimal.jpg",
-    tag: "Trend Report",
+    tag: "گزارش ترند",
   },
   {
-    title: "Dining, Slowly",
-    text: "Long wooden tables, low light and chairs you can sit in for hours.",
+    title: "شام، به آهستگی",
+    text: "میزهای بلند چوبی، نور کم و صندلی‌هایی که ساعت‌ها می‌توان در آن‌ها نشست.",
     image: "/images/interior-7.jpg",
-    tag: "Room Concept",
+    tag: "ایده فضا",
   },
   {
-    title: "The Reading Corner",
-    text: "One enveloping armchair, one arc lamp, one small table. That's the whole recipe.",
+    title: "گوشه مطالعه",
+    text: "یک صندلی راحتی دربرگیرنده، یک چراغ قوسی و یک میز کوچک. کل دستور همین است.",
     image: "/images/lamp-corner.jpg",
-    tag: "Idea",
+    tag: "ایده",
   },
 ];
 
 export default function TrendsPage() {
-  const posts = blogPosts.filter((p) => p.category === "Trends");
+  const posts = blogPosts.filter((p) => p.category === "ترندها");
   return (
     <main>
       <PageHeader
-        eyebrow="Editorial"
-        title="Trends & Inspiration"
-        subtitle="Trend notes, curated room concepts and ideas worth borrowing."
+        eyebrow="گزارش تصویری"
+        title="ترندها و ایده‌ها"
+        subtitle="یادداشت‌های ترند، ایده‌های فضایی برگزیده و ایده‌هایی که می‌ارزد قرض بگیرید."
         image="/images/interior-4.jpg"
       />
 
       <section className="container-luxe py-16 md:py-24">
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-wide text-ink md:text-3xl">
-            Curated room concepts
+          <h2 className="font-heading text-2xl font-bold text-ink md:text-3xl">
+            ایده‌های فضایی برگزیده
           </h2>
         </Reveal>
         <div className="mt-10 grid gap-6 sm:grid-cols-2">
@@ -62,13 +63,13 @@ export default function TrendsPage() {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-forest-deepest/85 via-forest-deep/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-7">
-                  <p className="font-heading text-[10px] font-semibold uppercase tracking-wide2 text-gold">
+                  <p className="font-heading text-[11px] font-semibold text-gold">
                     {c.tag}
                   </p>
-                  <h3 className="mt-2 font-heading text-xl font-bold tracking-wide text-ivory md:text-2xl">
+                  <h3 className="mt-2 font-heading text-xl font-bold text-ivory md:text-2xl">
                     {c.title}
                   </h3>
-                  <p className="mt-2 max-w-md font-body text-[13px] text-ivory/75">
+                  <p className="mt-2 max-w-md font-body text-[13px] leading-relaxed text-ivory/75">
                     {c.text}
                   </p>
                 </div>
@@ -78,8 +79,8 @@ export default function TrendsPage() {
         </div>
 
         <Reveal className="mt-20">
-          <h2 className="font-heading text-2xl font-bold tracking-wide text-ink md:text-3xl">
-            From the trend journal
+          <h2 className="font-heading text-2xl font-bold text-ink md:text-3xl">
+            از دفترچه ترند
           </h2>
         </Reveal>
         <div className="mt-10 grid gap-8 md:grid-cols-2">
@@ -96,17 +97,12 @@ export default function TrendsPage() {
                 </div>
                 <div>
                   <p className="eyebrow">{p.category}</p>
-                  <h3 className="mt-2 font-heading text-lg font-bold tracking-wide text-ink transition-colors group-hover:text-gold-muted">
+                  <h3 className="mt-2 font-heading text-lg font-bold text-ink transition-colors group-hover:text-gold-muted">
                     {p.title}
                   </h3>
-                  <p className="mt-2 font-body text-sm text-charcoal/65">{p.excerpt}</p>
+                  <p className="mt-2 font-body text-sm leading-relaxed text-charcoal/65">{p.excerpt}</p>
                   <p className="mt-3 font-body text-xs text-charcoal/45">
-                    {new Date(p.date).toLocaleDateString("en-GB", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}{" "}
-                    · {p.readTime}
+                    {faDate(p.date)} · {p.readTime}
                   </p>
                 </div>
               </Link>

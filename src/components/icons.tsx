@@ -144,7 +144,12 @@ export function IconChevron({ className = "h-4 w-4" }: { className?: string }) {
 
 export function IconArrowRight({ className = "h-4 w-4" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} {...stroke} strokeWidth={1.7}>
+    <svg
+      viewBox="0 0 24 24"
+      className={`${className} rtl:rotate-180`}
+      {...stroke}
+      strokeWidth={1.7}
+    >
       <path d="M4 12h16M13 5l7 7-7 7" />
     </svg>
   );

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { PageHeader } from "../components/PageHeader";
 import { Reveal } from "../components/Reveal";
 import { blogPosts } from "../data/editorial";
+import { faDate } from "../lib/fa";
 
 export function BlogGrid() {
   return (
@@ -21,18 +22,14 @@ export function BlogGrid() {
             <p className="eyebrow mt-5">
               {p.category} · {p.readTime}
             </p>
-            <h3 className="mt-2 font-heading text-xl font-bold tracking-wide text-ink transition-colors duration-300 group-hover:text-gold-muted">
+            <h3 className="mt-2 font-heading text-xl font-bold text-ink transition-colors duration-300 group-hover:text-gold-muted">
               {p.title}
             </h3>
             <p className="mt-2 font-body text-sm leading-relaxed text-charcoal/65">
               {p.excerpt}
             </p>
             <p className="mt-3 font-body text-xs text-charcoal/45">
-              {new Date(p.date).toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
+              {faDate(p.date)}
             </p>
           </Link>
         </Reveal>
@@ -45,9 +42,9 @@ export default function BlogPage() {
   return (
     <main>
       <PageHeader
-        eyebrow="The Journal"
-        title="Design Magazine"
-        subtitle="Guides, essays and atelier stories from the world of MAISON VERT."
+        eyebrow="مجله"
+        title="مجله طراحی"
+        subtitle="راهنماها، جستارها و قصه‌های آتلیه از دنیای میزون ور."
         image="/images/interior-6.jpg"
       />
       <div className="container-luxe py-16 md:py-24">

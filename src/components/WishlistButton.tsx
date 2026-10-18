@@ -14,7 +14,7 @@ export function WishlistButton({
 
   return (
     <button
-      aria-label={active ? "Remove from wishlist" : "Add to wishlist"}
+      aria-label={active ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"}
       aria-pressed={active}
       onClick={(e) => {
         e.preventDefault();

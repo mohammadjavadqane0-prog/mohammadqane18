@@ -2,12 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ------------------------------------------------------------------ */
+/* Yekan Bakh (یکان‌بخ) — the genuine licensed font files are served   */
+/* from /public/fonts. Upload the WOFF2 files with the exact names     */
+/* documented in public/fonts/README.md and they activate instantly;   */
+/* until then the interface renders with the fallback stack.           */
+/* ------------------------------------------------------------------ */
+@font-face {
+  font-family: "Yekan Bakh";
+  src: url("/fonts/YekanBakh-Light.woff2") format("woff2"),
+    url("/fonts/YekanBakh-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yekan Bakh";
+  src: url("/fonts/YekanBakh-Regular.woff2") format("woff2"),
+    url("/fonts/YekanBakh-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yekan Bakh";
+  src: url("/fonts/YekanBakh-Medium.woff2") format("woff2"),
+    url("/fonts/YekanBakh-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yekan Bakh";
+  src: url("/fonts/YekanBakh-SemiBold.woff2") format("woff2"),
+    url("/fonts/YekanBakh-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yekan Bakh";
+  src: url("/fonts/YekanBakh-Bold.woff2") format("woff2"),
+    url("/fonts/YekanBakh-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Yekan Bakh";
+  src: url("/fonts/YekanBakh-ExtraBold.woff2") format("woff2"),
+    url("/fonts/YekanBakh-ExtraBold.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
   }
   body {
     @apply bg-ivory font-body text-ink antialiased;
+    /* Persian readability */
+    text-align: start;
+    line-height: 1.8;
+  }
+  /* Form controls inherit the interface font */
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
   }
   ::selection {
     @apply bg-gold/40 text-forest-deep;
@@ -23,25 +88,25 @@
     @apply mx-auto w-full max-w-luxe px-5 md:px-8 lg:px-12;
   }
   .eyebrow {
-    @apply font-heading text-[11px] font-semibold uppercase tracking-luxe text-gold-muted;
+    @apply font-heading text-[11px] font-semibold text-gold-muted;
   }
   .display-title {
-    @apply font-heading font-bold uppercase tracking-luxe;
+    @apply font-heading font-bold;
   }
   .btn-gold {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold bg-gold/90 px-7 py-3 font-heading text-[11px] font-semibold uppercase tracking-wide2 text-forest-deep transition-all duration-300 hover:bg-gold hover:shadow-[0_8px_28px_-8px_rgba(216,177,106,0.7)] active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold bg-gold/90 px-7 py-3 font-heading text-[13px] font-semibold text-forest-deep transition-all duration-300 hover:bg-gold hover:shadow-[0_8px_28px_-8px_rgba(216,177,106,0.7)] active:scale-[0.98];
   }
   .btn-outline-gold {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold-muted bg-transparent px-7 py-3 font-heading text-[11px] font-semibold uppercase tracking-wide2 text-gold-muted transition-all duration-300 hover:bg-gold-muted/10 hover:text-gold active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold-muted bg-transparent px-7 py-3 font-heading text-[13px] font-semibold text-gold-muted transition-all duration-300 hover:bg-gold-muted/10 hover:text-gold active:scale-[0.98];
   }
   .btn-outline-dark {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-charcoal/25 bg-transparent px-7 py-3 font-heading text-[11px] font-semibold uppercase tracking-wide2 text-charcoal transition-all duration-300 hover:border-charcoal hover:bg-charcoal hover:text-ivory active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-charcoal/25 bg-transparent px-7 py-3 font-heading text-[13px] font-semibold text-charcoal transition-all duration-300 hover:border-charcoal hover:bg-charcoal hover:text-ivory active:scale-[0.98];
   }
   .btn-outline-light {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ivory/40 bg-transparent px-7 py-3 font-heading text-[11px] font-semibold uppercase tracking-wide2 text-ivory transition-all duration-300 hover:bg-ivory hover:text-forest active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ivory/40 bg-transparent px-7 py-3 font-heading text-[13px] font-semibold text-ivory transition-all duration-300 hover:bg-ivory hover:text-forest active:scale-[0.98];
   }
   .nav-link {
-    @apply relative font-heading text-[13px] font-medium tracking-wide2 text-ivory/80 transition-colors duration-300 hover:text-gold-soft after:absolute after:-bottom-1.5 after:left-1/2 after:h-px after:w-0 after:-translate-x-1/2 after:bg-gold after:transition-all after:duration-300 hover:after:w-full;
+    @apply relative font-heading text-[14px] font-medium text-ivory/80 transition-colors duration-300 hover:text-gold-soft after:absolute after:-bottom-1.5 after:left-1/2 after:h-px after:w-0 after:-translate-x-1/2 after:bg-gold after:transition-all after:duration-300 hover:after:w-full;
   }
   .nav-link-active {
     @apply text-gold after:absolute after:-bottom-1.5 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-gold;

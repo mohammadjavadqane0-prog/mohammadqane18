@@ -5,8 +5,14 @@ import { ProductGallery } from "../components/ProductGallery";
 import { Reveal } from "../components/Reveal";
 import { IconMinus, IconPlus, IconArrowRight } from "../components/icons";
 import { formatPrice, useStore } from "../context/StoreContext";
-import { getProduct, relatedProducts } from "../data/products";
+import {
+  getProduct,
+  relatedProducts,
+  badgeLabels,
+  categoryMeta,
+} from "../data/products";
 import { getDesigner } from "../data/designers";
+import { faDigits, faNum } from "../lib/fa";
 import NotFound from "./NotFound";
 
 export default function ProductDetail() {
@@ -35,18 +41,18 @@ export default function ProductDetail() {
     <main className="bg-ivory">
       {/* breadcrumb */}
       <nav
-        aria-label="Breadcrumb"
+        aria-label="مسیر صفحه"
         className="container-luxe flex flex-wrap items-center gap-2 pt-28 font-body text-xs text-charcoal/55 md:pt-32"
       >
         <Link to="/" className="transition-colors hover:text-gold-muted">
-          Home
+          خانه
         </Link>
         <span aria-hidden="true">/</span>
         <Link
           to={`/collection/${product.category}`}
-          className="capitalize transition-colors hover:text-gold-muted"
+          className="transition-colors hover:text-gold-muted"
         >
-          {product.category}
+          {categoryMeta[product.category].label}
         </Link>
         <span aria-hidden="true">/</span>
         <span className="text-charcoal">{product.name}</span>
@@ -60,15 +66,15 @@ export default function ProductDetail() {
         <Reveal delay={120}>
           <div>
             {product.badge && (
-              <span className="inline-block border border-gold/50 bg-forest-deep px-3 py-1 font-heading text-[9px] font-semibold uppercase tracking-wide2 text-gold">
-                {product.badge}
+              <span className="inline-block border border-gold/50 bg-forest-deep px-3 py-1 font-heading text-[10px] font-semibold text-gold">
+                {badgeLabels[product.badge]}
               </span>
             )}
-            <h1 className="mt-4 font-heading text-4xl font-bold tracking-wide text-ink md:text-5xl">
+            <h1 className="mt-4 font-heading text-4xl font-bold text-ink md:text-5xl">
               {product.name}
             </h1>
-            <p className="mt-2 font-accent text-xl italic text-charcoal/65">
-              Designed by{" "}
+            <p className="mt-2 font-accent text-xl text-charcoal/65">
+              طراحی از{" "}
               <Link
                 to={`/designers/${designer?.slug}`}
                 className="text-gold-muted underline-offset-4 hover:underline"
@@ -79,7 +85,7 @@ export default function ProductDetail() {
             <p className="mt-5 font-heading text-2xl font-bold text-ink">
               {formatPrice(product.price)}
               {product.originalPrice && (
-                <span className="ml-3 text-base font-medium text-charcoal/40 line-through">
+                <span className="ms-3 text-base font-medium text-charcoal/40 line-through">
                   {formatPrice(product.originalPrice)}
                 </span>
               )}
@@ -90,8 +96,8 @@ export default function ProductDetail() {
 
             {/* color variants */}
             <div className="mt-7">
-              <p className="font-heading text-[10px] font-semibold uppercase tracking-wide2 text-charcoal/60">
-                Finish / Color — <span className="text-ink">{color}</span>
+              <p className="font-heading text-[11px] font-semibold text-charcoal/60">
+                جنس و رنگ — <span className="text-ink">{color}</span>
               </p>
               <div className="mt-2.5 flex flex-wrap gap-2.5">
                 {product.colors.map((c) => (
@@ -114,18 +120,18 @@ export default function ProductDetail() {
             {/* material + dimensions */}
             <dl className="mt-7 grid max-w-lg grid-cols-2 gap-x-8 gap-y-4 border-y border-charcoal/10 py-5">
               <div>
-                <dt className="font-heading text-[10px] font-semibold uppercase tracking-wide2 text-charcoal/55">
-                  Material
+                <dt className="font-heading text-[11px] font-semibold text-charcoal/55">
+                  جنس
                 </dt>
                 <dd className="mt-1 font-body text-sm text-ink">{product.material}</dd>
               </div>
               <div>
-                <dt className="font-heading text-[10px] font-semibold uppercase tracking-wide2 text-charcoal/55">
-                  Dimensions (W×H×D)
+                <dt className="font-heading text-[11px] font-semibold text-charcoal/55">
+                  ابعاد (ط × ار × عم)
                 </dt>
                 <dd className="mt-1 font-body text-sm text-ink">
-                  {product.dimensions.width} × {product.dimensions.height} ×{" "}
-                  {product.dimensions.depth} cm
+                  {faDigits(product.dimensions.width)} × {faDigits(product.dimensions.height)}{" "}
+                  × {faDigits(product.dimensions.depth)} سانتی‌متر
                 </dd>
               </div>
             </dl>
@@ -135,30 +141,33 @@ export default function ProductDetail() {
               <div className="flex items-center border border-charcoal/15 bg-white">
                 <button
                   className="grid h-11 w-11 place-items-center text-charcoal/70 transition-colors hover:bg-charcoal/5"
-                  aria-label="Decrease quantity"
+                  aria-label="کاهش تعداد"
                   onClick={() => setQty((q) => Math.max(1, q - 1))}
                 >
                   <IconMinus />
                 </button>
-                <span className="w-9 text-center font-heading text-sm font-bold" aria-live="polite">
-                  {qty}
+                <span
+                  className="w-9 text-center font-heading text-sm font-bold"
+                  aria-live="polite"
+                >
+                  {faNum(qty)}
                 </span>
                 <button
                   className="grid h-11 w-11 place-items-center text-charcoal/70 transition-colors hover:bg-charcoal/5"
-                  aria-label="Increase quantity"
+                  aria-label="افزایش تعداد"
                   onClick={() => setQty((q) => Math.min(9, q + 1))}
                 >
                   <IconPlus />
                 </button>
               </div>
               <button
-                className="btn-gold min-w-[180px] flex-1"
+                className="btn-gold min-w-[200px] flex-1"
                 onClick={() => addToCart(product.id, color, qty)}
               >
-                Add to Cart — {formatPrice(product.price * qty)}
+                افزودن به سبد خرید — {formatPrice(product.price * qty)}
               </button>
               <button
-                aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                aria-label={wishlisted ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"}
                 aria-pressed={wishlisted}
                 onClick={() => toggleWishlist(product.id)}
                 className={`grid h-12 w-12 place-items-center rounded-full border transition-all duration-300 ${
@@ -176,8 +185,8 @@ export default function ProductDetail() {
               <div className="flex gap-6 border-b border-charcoal/10">
                 {(
                   [
-                    ["delivery", "Delivery"],
-                    ["care", "Care Instructions"],
+                    ["delivery", "ارسال"],
+                    ["care", "راهنمای نگهداری"],
                   ] as const
                 ).map(([key, label]) => (
                   <button
@@ -185,7 +194,7 @@ export default function ProductDetail() {
                     onClick={() => setTab(key)}
                     aria-selected={tab === key}
                     role="tab"
-                    className={`-mb-px border-b-2 pb-3 font-heading text-[11px] font-semibold uppercase tracking-wide2 transition-colors duration-300 ${
+                    className={`-mb-px border-b-2 pb-3 font-heading text-[12px] font-semibold transition-colors duration-300 ${
                       tab === key
                         ? "border-gold text-ink"
                         : "border-transparent text-charcoal/45 hover:text-charcoal"
@@ -197,23 +206,23 @@ export default function ProductDetail() {
               </div>
               <div className="pt-4 font-body text-sm leading-relaxed text-charcoal/70">
                 {tab === "delivery" ? (
-                  <ul className="list-disc space-y-2 pl-4">
+                  <ul className="list-disc space-y-2 ps-4">
                     <li>
-                      White-glove delivery included on orders over $1,000 — we
-                      place, assemble and remove all packaging.
+                      برای سفارش‌های بالای {formatPrice(1000)}، تحویل تشریفاتی رایگان
+                      است — جابه‌جایی، نصب و جمع‌آوری کامل بسته‌بندی با ما.
                     </li>
-                    <li>Standard delivery in 2–4 weeks; made-to-order pieces in 6–8.</li>
-                    <li>30-day returns, collected from your door.</li>
+                    <li>ارسال استاندارد در ۲ تا ۴ هفته؛ قطعه‌های سفارشی در ۶ تا ۸ هفته.</li>
+                    <li>۳۰ روز مهلت بازگشت کالا، با تحویل از درب منزل.</li>
                   </ul>
                 ) : (
-                  <ul className="list-disc space-y-2 pl-4">
-                    <li>Dust with a soft dry cloth; avoid direct sunlight and radiators.</li>
+                  <ul className="list-disc space-y-2 ps-4">
+                    <li>با دستمال نرم و خشک غبارگیری کنید؛ از نور مستقیم آفتاب و بخاری دور نگه دارید.</li>
                     <li>
-                      {product.material.toLowerCase().includes("leather")
-                        ? "Condition the leather twice a year with a neutral cream."
-                        : "Re-oil wood surfaces every 12–18 months to keep the finish alive."}
+                      {product.material.includes("چرم")
+                        ? "دو بار در سال، چرم را با کرم خنثی تغذیه کنید."
+                        : "هر ۱۲ تا ۱۸ ماه سطوح چوبی را دوباره روغن‌کاری کنید تا پرداخت زنده بماند."}
                     </li>
-                    <li>Blot spills immediately; never rub woven fabrics.</li>
+                    <li>مایعات ریخته‌شده را فوری خشک کنید؛ پارچه‌های بافته‌شده را هرگز نمالید.</li>
                   </ul>
                 )}
               </div>
@@ -226,16 +235,16 @@ export default function ProductDetail() {
       <section className="bg-forest py-16 text-ivory md:py-20">
         <div className="container-luxe grid items-center gap-10 md:grid-cols-[1.2fr_1fr]">
           <Reveal>
-            <p className="eyebrow !text-gold">The Making</p>
-            <p className="mt-4 max-w-2xl font-accent text-2xl italic leading-relaxed text-ivory/85 md:text-3xl">
+            <p className="eyebrow !text-gold">روایت ساخت</p>
+            <p className="mt-4 max-w-2xl font-accent text-2xl leading-relaxed text-ivory/85 md:text-3xl">
               {product.story}
             </p>
             {designer && (
               <Link
                 to={`/designers/${designer.slug}`}
-                className="group mt-6 inline-flex items-center gap-2 font-heading text-[11px] font-semibold uppercase tracking-wide2 text-gold transition-colors hover:text-ivory"
+                className="group mt-6 inline-flex items-center gap-2 font-heading text-[12px] font-semibold text-gold transition-colors hover:text-ivory"
               >
-                Explore {designer.name}
+                مشاهده {designer.name}
                 <IconArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             )}
@@ -243,7 +252,7 @@ export default function ProductDetail() {
           <Reveal delay={120}>
             <img
               src={product.images[1] ?? product.images[0]}
-              alt={`${product.name} styled in an interior`}
+              alt={`${product.name} در یک فضای دکوراتیو`}
               loading="lazy"
               className="aspect-[4/3] w-full object-cover"
             />
@@ -252,11 +261,11 @@ export default function ProductDetail() {
       </section>
 
       {/* related */}
-      <section className="py-16 md:py-24" aria-label="Related products">
+      <section className="py-16 md:py-24" aria-label="محصولات مرتبط">
         <div className="container-luxe">
           <Reveal>
-            <h2 className="font-heading text-2xl font-bold tracking-wide text-ink md:text-3xl">
-              You may also love
+            <h2 className="font-heading text-2xl font-bold text-ink md:text-3xl">
+              شاید بپسندید
             </h2>
           </Reveal>
           <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">

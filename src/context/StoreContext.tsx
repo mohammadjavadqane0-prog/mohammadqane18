@@ -171,10 +171,6 @@ export function useStore() {
   return ctx;
 }
 
-export function formatPrice(n: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(n);
-}
+// Toman price formatting lives in src/lib/fa (with the configurable
+// display rate in src/lib/pricing) — re-exported here for existing imports.
+export { formatPrice } from "../lib/fa";

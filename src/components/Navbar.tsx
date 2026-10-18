@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useStore } from "../context/StoreContext";
+import { useStore, formatPrice } from "../context/StoreContext";
 import { categories } from "../data/categories";
 import { products } from "../data/products";
-import { formatPrice } from "../context/StoreContext";
+import { normalizeFa } from "../lib/fa";
 import {
   IconCart,
   IconClose,
@@ -14,29 +14,29 @@ import {
 } from "./icons";
 
 const mainLinks = [
-  { to: "/collection", label: "Furniture", dropdown: true },
-  { to: "/designers", label: "Designers" },
-  { to: "/trends", label: "Trends" },
-  { to: "/blog", label: "Blog" },
-  { to: "/about", label: "About Us" },
+  { to: "/collection", label: "مبلمان", dropdown: true },
+  { to: "/designers", label: "طراحان" },
+  { to: "/trends", label: "ترندهای طراحی" },
+  { to: "/blog", label: "مجله" },
+  { to: "/about", label: "درباره ما" },
 ];
 
 function Wordmark({ tone = "light" }: { tone?: "light" | "dark" }) {
   return (
     <Link to="/" className="group inline-flex flex-col items-start leading-none">
       <span
-        className={`font-heading text-lg font-extrabold tracking-wide2 ${
+        className={`font-heading text-lg font-extrabold tracking-[0.2em] ${
           tone === "light" ? "text-ivory" : "text-forest"
         }`}
       >
         MAISON VERT
       </span>
       <span
-        className={`mt-1 font-heading text-[8px] font-semibold uppercase tracking-luxe ${
+        className={`mt-1 font-heading text-[9px] font-semibold ${
           tone === "light" ? "text-gold" : "text-gold-muted"
         }`}
       >
-        Furniture Design
+        طراحی مبلمان
       </span>
     </Link>
   );
@@ -66,13 +66,14 @@ export function Navbar() {
     };
   }, [menuOpen, searchOpen]);
 
+  // Persian-aware search: normalizes ی/ي، ک/ك، digits, ZWNJ and whitespace
   const searchResults =
     query.trim().length > 1
       ? products
           .filter((p) =>
-            `${p.name} ${p.category} ${p.material}`
-              .toLowerCase()
-              .includes(query.trim().toLowerCase())
+            normalizeFa(`${p.name} ${p.material} ${p.description}`).includes(
+              normalizeFa(query)
+            )
           )
           .slice(0, 6)
       : [];
@@ -93,7 +94,7 @@ export function Navbar() {
           <Wordmark />
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-9 lg:flex" aria-label="Main">
+          <nav className="hidden items-center gap-9 lg:flex" aria-label="ناوبری اصلی">
             {mainLinks.map((link) =>
               link.dropdown ? (
                 <div
@@ -131,7 +132,7 @@ export function Navbar() {
                         <Link
                           key={c.slug}
                           to={`/collection/${c.slug}`}
-                          className="block px-5 py-2.5 font-heading text-[12px] font-medium tracking-wide2 text-ivory/75 transition-colors duration-200 hover:bg-white/5 hover:text-gold"
+                          className="block px-5 py-2.5 font-heading text-[13px] font-medium text-ivory/75 transition-colors duration-200 hover:bg-white/5 hover:text-gold"
                           onClick={() => setDropdownOpen(false)}
                         >
                           {c.label}
@@ -158,7 +159,7 @@ export function Navbar() {
           <div className="flex items-center gap-0.5">
             <button
               className={navIconBtn}
-              aria-label="Search"
+              aria-label="جستجو"
               onClick={() => setSearchOpen(true)}
             >
               <IconSearch />
@@ -166,7 +167,7 @@ export function Navbar() {
             <Link
               to="/wishlist"
               className={`${navIconBtn} hidden sm:grid`}
-              aria-label="Wishlist"
+              aria-label="علاقه‌مندی‌ها"
             >
               <IconHeart filled={wishlist.length > 0} />
               {wishlist.length > 0 && (
@@ -177,7 +178,7 @@ export function Navbar() {
             </Link>
             <button
               className={navIconBtn}
-              aria-label="Shopping cart"
+              aria-label="سبد خرید"
               onClick={openCart}
             >
               <IconCart />
@@ -190,14 +191,14 @@ export function Navbar() {
             <Link
               to="/account"
               className={`${navIconBtn} hidden sm:grid`}
-              aria-label="Account"
-              title={user ? user.name : "Account"}
+              aria-label="حساب کاربری"
+              title={user ? user.name : "حساب کاربری"}
             >
               <IconUser />
             </Link>
             <button
               className={`${navIconBtn} lg:hidden`}
-              aria-label="Open menu"
+              aria-label="باز کردن منو"
               onClick={() => setMenuOpen(true)}
             >
               <IconMenu />
@@ -220,39 +221,39 @@ export function Navbar() {
           onClick={() => setMenuOpen(false)}
         />
         <aside
-          className={`absolute right-0 top-0 flex h-full w-[86%] max-w-sm flex-col bg-nav px-7 py-6 transition-transform duration-400 ${
-            menuOpen ? "translate-x-0" : "translate-x-full"
+          className={`absolute left-0 top-0 flex h-full w-[86%] max-w-sm flex-col bg-nav px-7 py-6 transition-transform duration-400 ${
+            menuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
           <div className="flex items-center justify-between">
             <Wordmark />
             <button
               className="grid h-10 w-10 place-items-center rounded-full text-ivory/80 hover:bg-white/5"
-              aria-label="Close menu"
+              aria-label="بستن منو"
               onClick={() => setMenuOpen(false)}
             >
               <IconClose />
             </button>
           </div>
-          <nav className="mt-10 flex flex-col gap-1" aria-label="Mobile">
+          <nav className="mt-10 flex flex-col gap-1" aria-label="ناوبری موبایل">
             {mainLinks.map((l) => (
               <Link
                 key={l.label}
                 to={l.to}
-                className="border-b border-white/5 py-4 font-heading text-base font-semibold tracking-wide2 text-ivory transition-colors hover:text-gold"
+                className="border-b border-white/5 py-4 font-heading text-base font-semibold text-ivory transition-colors hover:text-gold"
                 onClick={() => setMenuOpen(false)}
               >
                 {l.label}
               </Link>
             ))}
           </nav>
-          <p className="mt-6 eyebrow">Collections</p>
+          <p className="mt-6 eyebrow">مجموعه‌ها</p>
           <div className="mt-3 grid grid-cols-2 gap-2">
             {categories.map((c) => (
               <Link
                 key={c.slug}
                 to={`/collection/${c.slug}`}
-                className="border border-gold/15 px-3 py-2.5 text-center font-heading text-[11px] uppercase tracking-wide2 text-ivory/80 transition-colors hover:border-gold hover:text-gold"
+                className="border border-gold/15 px-3 py-2.5 text-center font-heading text-[12px] text-ivory/80 transition-colors hover:border-gold hover:text-gold"
                 onClick={() => setMenuOpen(false)}
               >
                 {c.label}
@@ -265,14 +266,14 @@ export function Navbar() {
               className="btn-outline-gold flex-1"
               onClick={() => setMenuOpen(false)}
             >
-              Wishlist ({wishlist.length})
+              علاقه‌مندی‌ها ({wishlist.length})
             </Link>
             <Link
               to="/account"
               className="btn-outline-gold flex-1"
               onClick={() => setMenuOpen(false)}
             >
-              Account
+              حساب کاربری
             </Link>
           </div>
         </aside>
@@ -285,7 +286,7 @@ export function Navbar() {
         }`}
         role="dialog"
         aria-modal="true"
-        aria-label="Search"
+        aria-label="جستجو"
       >
         <div
           className="absolute inset-0 bg-forest-deepest/80 backdrop-blur-sm"
@@ -306,13 +307,13 @@ export function Navbar() {
                 }
                 if (e.key === "Escape") setSearchOpen(false);
               }}
-              placeholder="Search furniture, materials, designers…"
+              placeholder="دنبال چه محصولی هستید؟"
               className="w-full bg-transparent font-body text-base text-ivory placeholder:text-ivory/35 focus:outline-none"
-              aria-label="Search products"
+              aria-label="جستجوی محصولات"
             />
             <button
               className="text-ivory/60 transition-colors hover:text-gold"
-              aria-label="Close search"
+              aria-label="بستن جستجو"
               onClick={() => setSearchOpen(false)}
             >
               <IconClose />
@@ -323,7 +324,7 @@ export function Navbar() {
               {searchResults.map((p) => (
                 <li key={p.id}>
                   <button
-                    className="flex w-full items-center gap-4 px-5 py-3 text-left transition-colors hover:bg-white/5"
+                    className="flex w-full items-center gap-4 px-5 py-3 text-start transition-colors hover:bg-white/5"
                     onClick={() => {
                       navigate(`/product/${p.slug}`);
                       setSearchOpen(false);
@@ -336,10 +337,10 @@ export function Navbar() {
                       className="h-12 w-12 shrink-0 object-cover"
                       loading="lazy"
                     />
-                    <span className="flex-1 font-heading text-sm font-semibold tracking-wide text-ivory">
+                    <span className="flex-1 font-heading text-sm font-semibold text-ivory">
                       {p.name}
-                      <span className="ml-3 text-[11px] font-medium uppercase tracking-wide2 text-ivory/45">
-                        {p.category}
+                      <span className="ms-3 text-[11px] font-medium text-ivory/45">
+                        {categories.find((c) => c.slug === p.category)?.label}
                       </span>
                     </span>
                     <span className="font-heading text-sm text-gold">
@@ -349,6 +350,11 @@ export function Navbar() {
                 </li>
               ))}
             </ul>
+          )}
+          {query.trim().length > 1 && searchResults.length === 0 && (
+            <div className="mt-3 border border-gold/20 bg-nav px-5 py-4 font-body text-sm text-ivory/60">
+              محصولی مطابق جستجوی شما پیدا نشد.
+            </div>
           )}
         </div>
       </div>
